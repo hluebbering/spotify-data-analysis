@@ -1,0 +1,226 @@
+---
+title: |
+  ![](R2.svg){width="100%"} 
+  
+subtitle: "Spotify Analysis" 
+# author: "DATA 557 | Winter 2022"
+date: |
+  <div class="spotify1">
+  <h4>DATA 557 | Winter 2022 </h4>
+  <h5>Group Members </h5>
+  - Aniket Fadia
+  - Hannah Luebbering
+  - Rebecca Klein
+  - Teju Kandula
+  </div>
+output:
+  html_document: 
+    css: assets/main.css
+    toc: no
+    toc_float: no
+# knit: pagedown::chrome_print
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(Rmisc)
+library(plotrix)
+library(gridExtra)
+library(ggridges)
+```
+
+
+
+### Data Source:
+
+
+> 1. Spotify Daily Top Tracks <div class = "track__plays">(Spotify API)</div>
+
+- **Source:** Spotify API
+- **Description:** shows the top $200$ tracks per United States Spotify Charts each day from January 1, 2017 to December 31, 2021
+- **Variables:** `day`, `track_id`, `rank`, `title`, `main_artist`, `main_artist_id`, `streams`, `all_artists`, `all_artists_ids`, `acousticness`, `danceability`, `duration`, `energy`, `instrumentalness`, `key`, `liveness`, `loudness`, `mode`, `speechiness`, `tempo`, `explicit`, `time_signature`, `valence`, `genre`. 
+
+
+Here's a preview of the [Spotify Daily Top Tracks](https://open.spotify.com/playlist/37i9dQZEVXbLRQDuF5jeBp?si=ef85fb71d92d43d5) playlist, which is a daily update of the most played tracks *right now* in the USA.
+
+
+
+<html>
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbLRQDuF5jeBp?utm_source=generator&theme=0" width="100%" height="240" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" data-external="1"></iframe>
+</html>
+
+
+
+
+```{r, message=FALSE, warning=FALSE}
+source("assets/top50usa.R")
+
+# prep frequency table
+freqtable <- table(myPlaylists$Artist)
+freqtable <- as.data.frame.table(freqtable) # %>% filter(Freq > 2)
+```
+
+
+
+```{r}
+p <- ggplot(d %>% head(15), aes(x=reorder(word, freq), y=freq, fill = freq)) + geom_bar(stat = "identity", width = .8) + labs( x = "", y = "Frequency") + coord_flip() + theme_minimal(base_size = 8, base_family = "Roboto") + 
+  theme(axis.text.y = element_text(size = 8, family = "Roboto Condensed"), legend.position = "none") +
+  scale_fill_gradientn(colours = c("#C8F774", "#468B78", "#1DB954"))
+
+gp1 <- ggplotly(p)
+```
+
+
+
+
+
+
+
+
+```{r}
+freqtable2 <- freqtable %>% arrange(desc(Freq)) %>% slice(1:22) 
+
+p1 <- freqtable2 %>% 
+  mutate(Var1 = fct_reorder(Var1, Freq)) %>%
+  ggplot(aes(x=Var1, y=Freq)) + 
+    geom_col(aes(y = 3), fill = "#ebebeb", width=.595) +
+  geom_segment( aes(xend=Var1, yend=0), color = "#1ed760", cex=1.75) +
+  geom_point( size=1.25, color = "#1ed760") +
+  coord_flip() +
+  theme_minimal(base_size = 11, base_family = "Roboto Condensed") +
+  xlab("") + ylab("Number of Songs") + ylim(0, 3) +
+  theme(text = element_text(family = "Roboto Condensed", size = 11),
+        title = element_text(face = "bold"),
+        axis.title.x = element_text(face = "plain", size = 10),
+        axis.text.y = element_text(size = 10), axis.text.x = element_text(size = 8), 
+        panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), 
+        panel.grid.major.y = element_blank(),
+        axis.ticks.x = element_line(colour = "grey90"))
+
+gp2 <- ggplotly(p1)
+
+
+```
+
+```{r, out.width="90%", fig.align='center'}
+annotations = list( 
+  list( 
+    x = 0.2,  
+    y = 1.0,  
+    text = "Top Artists",  
+    xref = "paper",  
+    yref = "paper",  
+    xanchor = "center",  
+    yanchor = "bottom",  
+    showarrow = FALSE 
+  ),  
+  list( 
+    x = 0.8,  
+    y = 1,  
+    text = "Top Genres",  
+    xref = "paper",  
+    yref = "paper",  
+    xanchor = "center",  
+    yanchor = "bottom",  
+    showarrow = FALSE 
+  ))
+
+subplot(gp2, gp1,margin = 0.075) %>% layout(annotations = annotations) 
+
+```
+
+
+```{r, out.width="85%", fig.height=5, fig.width=10, fig.align='center'}
+track_features <- select(df_usaTop50, liveness, speechiness, energy, danceability, acousticness, valence) %>%
+  pivot_longer(cols = liveness:valence, 
+               names_to = "feature", 
+               values_to = "value")
+
+density1 <- ggplot(track_features, aes(x = value, y = feature, fill = feature)) + 
+  geom_density_ridges() + 
+  theme_ridges(font_size = 12, font_family = "Roboto Condensed") + 
+  scale_fill_manual(values = c("#F230AA", "#EEAEC6", "#D3FB67", "#4FE383", "#468B78", "#171C18")) +
+  theme(legend.position = "none", text = element_text(size = 11, family = "Roboto Condensed"), axis.text.y = element_text(size = 10, family = "Roboto Condensed"), axis.text.x = element_text(size = 9))
+
+density1
+
+
+```
+
+
+
+
+-----------------------------------------
+
+
+
+
+### Questions/Hypotheses:
+
+<div class="spotify2">
+<ol class="roundedlist">
+
+1. Does time period change the popularity (proportion of streams) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    a. Whether or not it is a weekday or weekend
+    b. Whether or not it is a holiday
+    c. Season (summer, winter, spring, fall)
+2. Did the popularity of happy songs (mean valence) in the top 200 Spotify US daily streams change during Covid?
+    a. Before March 13, 2020 (exclusive)
+    b. After March 13, 2020 (inclusive)
+3. What parameters are the most important in predicting the popularity on Spotify in the US?
+    a. Popularity is calculated by summing 201 - Rank (i.e. rank 1 has score 200, rank 200 has score 1) over all the days they are on the Spotify Top 200 streams
+
+</ol>
+</div>
+
+
+
+
+#### Methodology:
+
+
+
+
+
+
+> Question 1 <div class = "track__plays">(Time period and proportion of genres played)</div>
+
+- Use Spotify API to pull 2017-2021 US daily top track data
+- Join Spotify daily tracks data with Artist, Genre, and Tracks tables
+- Use two-sided two-sample large sample Z-test to answer subquestions a and b
+    - Perform the above test for each of the following genres: pop, rap, hip hop, r&b, and rock 
+- Use ANOVA to answer subquestion c to test the difference in proportion of a genre depending on the seasons
+    - Perform the above test for each of the following genres: pop, rap, hip hop, r&b, and rock 
+
+
+
+> Question 2 <div class = "track__plays">(happiness of songs during Covid)</div>
+
+- Same dataset used in Question 2
+- Use two-sided two-sample large sample Z-test to answer question
+
+
+> Question 3 <div class = "track__plays">(parameters for popularity)</div>
+
+- Popularity is calculated by summing $201$ - Rank (i.e. rank 1 has score 200, rank 200 has score 1) over all the days they are on the Spotify Top 200 streams
+- Use Linear Regression with all the features as a baseline model
+    - Possible features: `acousticness`, `danceability`, `duration`, `energy`, `instrumentalness`, `key`, `liveness`, `loudness`, `mode`, `speechiness`, `tempo`, `explicit`, `time_signature`, `valence`, `genre`
+    - Predicted value: calculated popularity
+- Remove features one by one to improve the $R^2$ score
+- Consider adding interaction effects and check the performance of the linear regression model. However, adding interaction effect will complicate the interpretability of the model
+
+
+
+
+
+-----------------------------------
+
+
+
+
+
+
+
+
+
+

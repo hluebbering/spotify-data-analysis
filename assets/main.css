@@ -1,0 +1,452 @@
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
+@import url("https://use.typekit.net/bbp6pmz.css");
+
+/** CUSTOM CSS **/
+
+.author{
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size:14pt;
+  font-weight: 400;
+  margin-top: 8px !important;
+  margin-bottom: 5px !important;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  letter-spacing: 1.25px;
+}
+.date {
+  font-family: proxima-nova, sans-serif;
+  color: #757575;
+  font-size:12pt;
+  font-weight: 400;
+  margin-top: -22px !important;
+  margin-bottom: 5px !important;
+}
+
+h1.title {
+  font-family: proxima-nova, sans-serif;
+  color: #292929;
+  font-size: 22pt;
+  font-weight: 700;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+    
+}
+
+h3.subtitle {
+  color: #292929;
+  font-size: 28pt;
+  font-weight: 800;
+  margin: auto;
+  font-family: proxima-nova, sans-serif;
+  border: none;
+  border-bottom: 6px solid #1ed760;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  padding: 15px 0;
+  padding-right: 36pt !important;
+    
+}
+
+div#header {
+  padding-bottom: 0;
+}
+
+
+
+hr {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-family: proxima-nova, sans-serif;
+}
+
+h2 {
+  font-family: proxima-nova, sans-serif;
+  font-size: 15pt;
+  color: #313132;
+  font-weight: 700;
+  color: white;
+}
+    
+h3 {
+  font-family: proxima-nova, sans-serif;
+  color: #313132;
+  font-weight: 700;
+  font-size: 16pt;
+  padding-top: 16pt;
+  padding-bottom: 8pt;
+  text-transform: uppercase;
+}
+h4 {
+  font-family: proxima-nova, sans-serif;
+  font-size: 14pt;
+  color: #313132;
+  font-weight: 600;
+  padding-top: 25px;
+  text-transform: uppercase;
+  
+}
+h5 {
+  font-family: proxima-nova, sans-serif;
+  font-size: 10pt;
+  font-weight: 700;
+}
+
+body {
+  font-family: 'Source Serif Pro', serif;
+  margin: 30.6px;
+  font-size: 12pt;
+}
+
+p {
+  font-family: 'Source Serif Pro', serif;
+  font-size: 11pt;
+  padding: 1.4px;
+  line-height: 1.5em;
+  color: #292929;
+}
+
+p.caption {
+  font-size: 9.6pt;
+  color: black;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+a {
+  font-family: 'roboto';
+  font-weight: 500 !important;
+  color: #1ed760;
+  background-color: #333;
+  padding: 1pt 3pt 1pt 3pt;
+  border-radius: 4pt;
+  font-size: 10pt;
+}
+
+code {
+  font-family: 'Roboto Condensed', sans-serif;
+  
+}
+
+blockquote {
+  border-left: 5px solid #1DB954;
+  box-shadow: 1px 1px 6px 0px darkgrey;
+  margin: 14pt 0 10pt 0;
+  border-top: 1px solid #282828;
+  background: #181818;
+  color: white !important;
+  font-size: 11pt;
+  font-family: roboto, sans-serif;
+}
+
+blockquote p {
+  font-size: 11pt;
+  color: white !important;
+}
+blockquote ol {
+  margin-left: 10px;
+  padding-left: 0;
+}
+blockquote a {
+  color: white;
+}
+
+blockquote ol li::marker {
+  color: #aaaaaa;
+  font-weight: 200;
+}
+
+blockquote .track__plays {
+  margin-left: 6pt;
+  padding-right: 10px;
+  display: inline-flex;
+  color: #aaaaaa;
+  letter-spacing: 1px;
+  font-weight: 400;
+  font-size: 9pt;
+  text-transform: uppercase;
+}
+
+
+
+.roundedlist ol {
+  list-style: none !important;
+  counter-reset: my-awesome-counter;
+  padding: 0 !important;
+  margin-left: 10px;
+  
+}
+.roundedlist li {
+  counter-increment: my-awesome-counter;
+  margin: 0.25rem;
+  font-family: roboto, sans-serif !important;
+  font-size: 11.5pt;
+  font-weight: 400;
+  margin-bottom: 12pt;
+}
+
+.roundedlist li::before {
+  font-family: roboto, sans-serif !important;
+  content: counter(my-awesome-counter);
+  background: #333 !important;
+  color: #1ed760 !important;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-block;
+  line-height: 22px;
+  text-align: center;
+  margin-right: 6px;
+  font-weight: 800;
+  box-shadow: 0.75px 1px 2.5px 0.25px #333;
+  margin-top: 3.5px !important;
+  -webkit-print-color-adjust: exact;
+  margin-left: -30px !important;
+}
+
+ol.roundedlist {
+  padding-left: 14pt;
+}
+
+b, strong {
+  font-weight: 700;
+  font-size: 11pt;
+  font-family: proxima-nova, sans-serif;
+}
+
+
+.roundedlist ul li::before {
+  content: none;
+}
+.roundedlist ul li {
+  counter-increment: none !important;
+}
+
+.roundedlist ol ol li {
+  font-family: roboto, sans-serif;
+  font-weight: 300 !important;
+  padding-left: 24pt;
+  font-size: 11pt;
+  margin-bottom: 6pt !important;
+
+}
+
+
+
+.roundedlist ol ol li::before {
+  font-size: 10pt;
+  content: counter(my-awesome-counter, lower-alpha) !important;
+  margin-left: -18pt !important;
+  width: 14pt;
+  text-align: center;
+  height: 14pt;
+  align-content: center;
+  line-height: 13pt;
+  font-weight: 500;
+  padding-left: 0.95px;
+  /* margin-top: 4pt !important; */
+}
+
+
+
+.spotify1 {
+  background: #282828;
+  padding: 15px;
+  color: #aaaaaa;
+  border-bottom: 1px solid #181818;
+  align-items: center;
+  padding-bottom: 0;
+  margin-top: 10px;
+  font-size: 11pt !important;
+  font-family: roboto, sans-serif !important;
+  line-height: 16pt !important;
+    
+}
+
+.spotify1 h4,
+.spotify1 h5{
+    color: white;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    font-family: 'roboto';
+    font-weight: 400;
+    padding: 5px 0;
+    padding-top: 5px !important;
+}
+
+.spotify1 h5::after {
+  content: "";
+  background-image: url(arrow1.svg);
+  background-size: cover;
+  display: inline-block;
+  width: 20px;
+  height: 15px;
+  position: relative;
+  top: 3px;
+  margin-left: -3.5px;
+}
+
+.spotify1 ul {
+  padding: 5px 0;
+  list-style: none;
+}
+
+.spotify1 ul li {
+  padding-left: 0;
+  font-weight: 300;
+  text-transform: none !important;
+}
+
+.spotify1 ul li::before {
+  content: "";
+  background-image: url(user2.svg);
+  background-size: contain;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  position: relative;
+  top: 0.095rem;
+  margin-right: 8px;
+}
+
+
+.spotify2 {
+  background: #f9f9f9;
+  padding: 12px 22px;
+  border-radius: 15pt;
+  box-shadow: inset 1px 1px 5px 2px #999;
+}
+
+h3.subtitle::before {
+    content: "";
+    background-image: url(spotify1.svg);
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    position: relative;
+    margin: 5px 5px -10px 0;
+}
+
+.spotify2 h3::before {
+    content: "";
+    background-image: url(spotify3.svg);
+    background-size: cover;
+    width: 35px;
+    height: 35px;
+    display: inline-block;
+    position: relative;
+    margin: 5px 5px -10px 0;
+}
+
+
+
+
+@media print {
+  blockquote {
+    border-left: 5px solid #1DB954 !important;
+    box-shadow: 1px 1px 6px 0px darkgrey !important;
+    border-top: 1px solid #282828 !important;
+    background: #181818 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+  blockquote ol li {
+    color: white !important;
+    font-weight: 400;
+    -webkit-print-color-adjust: exact;
+  }
+  blockquote ::marker {
+    color: #aaaaaa !important;
+    -webkit-print-color-adjust: exact;
+  }
+  blockquote a {
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .spotify1 h5:after {
+    content: url(arrow1.svg);
+    zoom: 0.05;
+    background-repeat: no-repeat;
+    -webkit-print-color-adjust: exact;
+  
+  }
+  
+  .spotify1 ul li:before {
+    content: url(user2.svg);
+    zoom: 0.0185;
+    width: auto;
+    padding-right: 4in !important;
+    background-repeat: no-repeat;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  h3.subtitle:before {
+    content: url(spotify1.svg);
+    zoom: 0.05;
+    width: auto;
+    margin-top: -1.5in !important;
+    background-repeat: no-repeat;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .spotify2 {
+    background: #f9f9f9 !important;
+    box-shadow: inset 1px 1px 5px 2px #999 !important;
+    -webkit-print-color-adjust: exact;
+}
+  
+  .spotify2 h3::before {
+    content: url(spotify3.svg);
+    zoom: 0.075;
+    width: auto;
+    background-repeat: no-repeat;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  blockquote ol li::marker {
+    color: #aaaaaa !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  blockquote .track__plays {
+    color: #aaaaaa !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  code {
+    background-color: rgba(0, 0, 0, 0.04) !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .spotify1 {
+    background: #282828 !important;
+    color: #aaaaaa !important;
+    border-bottom: 1px solid #181818 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .spotify1 h4, .spotify1 h5 {
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .spotify1 ul li {
+    color: #aaaaaa !important;
+    font-weight: 300;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .roundedlist li::before {
+    background: #333 !important;
+    color: #1ed760 !important;
+    box-shadow: 0.75px 1px 2.5px 0.25px #333 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+}
+
+
