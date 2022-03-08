@@ -1,9 +1,8 @@
 ---
 title: |
-  ![](R2.svg){width="100%"} 
+  ![](assets/R2.svg){width="100%"} 
   
 subtitle: "Spotify Analysis" 
-# author: "DATA 557 | Winter 2022"
 date: |
   <div class="spotify1">
   <h4>DATA 557 | Winter 2022 </h4>
@@ -19,6 +18,8 @@ output:
     toc: no
     toc_float: no
 # knit: pagedown::chrome_print
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
 
 ```{r setup, include=FALSE}
@@ -27,131 +28,165 @@ library(Rmisc)
 library(plotrix)
 library(gridExtra)
 library(ggridges)
+library(dplyr)
+library(kableExtra)
+library(reactable)
+library(htmltools)
+library(reactablefmtr)
+
+df <- readRDS(file = "scripts/spotify_data.rds")
+source("scripts/spotify_tables.R")
 ```
 
 
 
-### Data Source:
-
-
-> 1. Spotify Daily Top Tracks <div class = "track__plays">(Spotify API)</div>
-
-- **Source:** Spotify API
-- **Description:** shows the top $200$ tracks per United States Spotify Charts each day from January 1, 2017 to December 31, 2021
-- **Variables:** `day`, `track_id`, `rank`, `title`, `main_artist`, `main_artist_id`, `streams`, `all_artists`, `all_artists_ids`, `acousticness`, `danceability`, `duration`, `energy`, `instrumentalness`, `key`, `liveness`, `loudness`, `mode`, `speechiness`, `tempo`, `explicit`, `time_signature`, `valence`, `genre`. 
-
-
-Here's a preview of the [Spotify Daily Top Tracks](https://open.spotify.com/playlist/37i9dQZEVXbLRQDuF5jeBp?si=ef85fb71d92d43d5) playlist, which is a daily update of the most played tracks *right now* in the USA.
+---------------------------------------------------
 
 
 
-<html>
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbLRQDuF5jeBp?utm_source=generator&theme=0" width="100%" height="240" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" data-external="1"></iframe>
-</html>
+## Introduction
 
 
+### Data Description:
+
+All of the data sourced for this project is from the **Spotify API**. There are two main sub categories of data from the Spotify API that we use: the Daily Top 200 Charts and Spotify Track Features.
 
 
-```{r, message=FALSE, warning=FALSE}
-source("assets/top50usa.R")
+> 1. Daily Top 200 Charts <div class = "track__plays">(Spotify API)</div>
 
-# prep frequency table
-freqtable <- table(myPlaylists$Artist)
-freqtable <- as.data.frame.table(freqtable) # %>% filter(Freq > 2)
-```
 
+The **Daily Top 200 Charts** shows the top $200$ most streamed tracks each day from January 1, 2018 to December 31, 2021. For example, Spotify Daily Top Songs USA shows the daily update of the most played tracks across the US right now. The variables included in this dataset are `rank`, `uri`, `artist_names`, `track_name`, `source`, `peak_rank`, `previous_rank`, `days_on_chart`, `streams`.
 
 
 ```{r}
-p <- ggplot(d %>% head(15), aes(x=reorder(word, freq), y=freq, fill = freq)) + geom_bar(stat = "identity", width = .8) + labs( x = "", y = "Frequency") + coord_flip() + theme_minimal(base_size = 8, base_family = "Roboto") + 
-  theme(axis.text.y = element_text(size = 8, family = "Roboto Condensed"), legend.position = "none") +
-  scale_fill_gradientn(colours = c("#C8F774", "#468B78", "#1DB954"))
+df.daily <- read.csv("scripts/us-daily-2022-02-23.csv")
+colnames(df.daily) <- c("rank", "uri", "artists", "track", "source", "peak", "previous", "streak", "streams")
+df.daily$difference <- (df.daily$rank - df.daily$previous)
+df.daily <- df.daily %>% 
+  select(rank, difference, track, artists, streams) %>% 
+  mutate(rank_icons = case_when(difference < 0 ~ "arrow-down",
+                                difference > 0 ~ "arrow-up",
+                                difference == 0 ~ "minus", TRUE ~ "other")) %>%
+  mutate(rank_colors = case_when(difference < 0 ~ "#e91e34",
+                                 difference > 0 ~ "#1db954",
+                                 difference == 0 ~ "#cbcacf", TRUE ~ "other"))
 
-gp1 <- ggplotly(p)
+
+reactable(
+  df.daily %>% head(6),
+  columns = list(
+    rank = colDef(
+      header = tagList(
+          span("#", "aria-hidden" = "true", title = " "),
+          span(" ", class = "sr-only")),
+      width = 40,
+      class = "number"),
+    difference = colDef(
+      name = " ",
+      width = 30,
+      cell = icon_sets(df.daily, icon_color_ref = "rank_colors", icon_ref = "rank_icons", 
+                       icon_position = "over", icon_size = 10, colors = "black")),
+    track = colDef(
+      cell = function(value, index) { 
+        artists <- df.daily$artists[index] # Show artists under track names
+        artists <- if (!is.na(artists)) artists else "Unknown"
+        div(div(style = list(fontWeight = 600), value),
+            div(style = list(fontSize = 12, color = "#aaaaaa"), artists))}),
+    artists = colDef(show = FALSE),
+    streams = colDef(
+      name = "Streams",
+      format = colFormat(separators = TRUE),
+      width = 120,
+      class = "number"),
+    rank_icons = colDef(show = FALSE),
+    rank_colors = colDef(show = FALSE)
+  ),
+  highlight = TRUE,
+  wrap = FALSE,
+  paginationType = "simple",
+  minRows = 6,
+  theme = spotify_theme2()
+)
 ```
 
 
 
 
+\ 
 
 
+> 2. Spotify Track Features <div class = "track__plays">(Spotify API)</div>
+
+The **Spotify Track Features** dataset shows audio features for each track streamed. A full list of these, along with their verbal definitions, can be found on Spotify’s page for developers. There are 12 audio features for each track, including confidence measures `acousticness`, `instrumentalness`, `liveness`, `speechiness`; perceptual measures `danceability`, `energy`, `loudness`, `valence`; and descriptors `key`, `duration`, `mode`, `tempo`.
 
 
 ```{r}
-freqtable2 <- freqtable %>% arrange(desc(Freq)) %>% slice(1:22) 
+source("scripts/playlistMoods.R")
+trackFeatures <- trackFeatures %>% head(4) %>% 
+  rename(c(track = track.name, duration = duration_ms))
 
-p1 <- freqtable2 %>% 
-  mutate(Var1 = fct_reorder(Var1, Freq)) %>%
-  ggplot(aes(x=Var1, y=Freq)) + 
-    geom_col(aes(y = 3), fill = "#ebebeb", width=.595) +
-  geom_segment( aes(xend=Var1, yend=0), color = "#1ed760", cex=1.75) +
-  geom_point( size=1.25, color = "#1ed760") +
-  coord_flip() +
-  theme_minimal(base_size = 11, base_family = "Roboto Condensed") +
-  xlab("") + ylab("Number of Songs") + ylim(0, 3) +
-  theme(text = element_text(family = "Roboto Condensed", size = 11),
-        title = element_text(face = "bold"),
-        axis.title.x = element_text(face = "plain", size = 10),
-        axis.text.y = element_text(size = 10), axis.text.x = element_text(size = 8), 
-        panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank(), 
-        panel.grid.major.y = element_blank(),
-        axis.ticks.x = element_line(colour = "grey90"))
-
-gp2 <- ggplotly(p1)
-
-
-```
-
-```{r, out.width="90%", fig.align='center'}
-annotations = list( 
-  list( 
-    x = 0.2,  
-    y = 1.0,  
-    text = "Top Artists",  
-    xref = "paper",  
-    yref = "paper",  
-    xanchor = "center",  
-    yanchor = "bottom",  
-    showarrow = FALSE 
-  ),  
-  list( 
-    x = 0.8,  
-    y = 1,  
-    text = "Top Genres",  
-    xref = "paper",  
-    yref = "paper",  
-    xanchor = "center",  
-    yanchor = "bottom",  
-    showarrow = FALSE 
-  ))
-
-subplot(gp2, gp1,margin = 0.075) %>% layout(annotations = annotations) 
+reactable(
+  trackFeatures,
+  columns = list(
+    position = colDef(
+      header = tagList(
+          span("#", "aria-hidden" = "true", title = " "),
+          span(" ", class = "sr-only")),
+      width = 32,
+      class = "number"),
+    track = colDef(
+      width = 120,
+      cell = function(value, index) {
+        div(div(style = list(fontWeight = 600), value))}),
+    danceability = colDef(width = 86, class = "number"),
+    energy = colDef(width = 70, class = "number"),
+    key = colDef(width = 40, class = "number"),
+    loudness = colDef(width = 70, class = "number"),
+    mode = colDef(width = 50, class = "number"),
+    speechiness = colDef(width = 75, class = "number"),
+    acousticness = colDef(width = 75, class = "number"),
+    instrumentalness = colDef(width = 80, class = "number"),
+    liveness = colDef(width = 60, class = "number"),
+    valence = colDef(width = 80, class = "number"),
+    tempo = colDef(width = 60, class = "number"),
+    duration = colDef(width = 80, class = "number")
+  ),
+  highlight = TRUE,
+  wrap = FALSE,
+  paginationType = "simple",
+  resizable = TRUE,
+  theme = spotify_theme3()
+)
 
 ```
 
 
-```{r, out.width="85%", fig.height=5, fig.width=10, fig.align='center'}
-track_features <- select(df_usaTop50, liveness, speechiness, energy, danceability, acousticness, valence) %>%
-  pivot_longer(cols = liveness:valence, 
-               names_to = "feature", 
-               values_to = "value")
 
-density1 <- ggplot(track_features, aes(x = value, y = feature, fill = feature)) + 
-  geom_density_ridges() + 
-  theme_ridges(font_size = 12, font_family = "Roboto Condensed") + 
-  scale_fill_manual(values = c("#F230AA", "#EEAEC6", "#D3FB67", "#4FE383", "#468B78", "#171C18")) +
-  theme(legend.position = "none", text = element_text(size = 11, family = "Roboto Condensed"), axis.text.y = element_text(size = 10, family = "Roboto Condensed"), axis.text.x = element_text(size = 9))
+\ 
 
-density1
+#### Final Data
+
+We merged the two data sources into a single data frame with the combination of being the unique identifier of an observation.
 
 
+```{r, out.width="100%"}
+df.description  %>% 
+  kable(escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:22, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(2:3, color = "#555", extra_css = "font-weight: 300;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
 ```
+
+
+
+We do not have a genre for each song. So, we are utilizing the genres the artist belongs to and using those genres for each song. We want to discuss this with you in the meeting which we will be scheduling this week.
 
 
 
 
 -----------------------------------------
-
 
 
 
@@ -161,63 +196,346 @@ density1
 <ol class="roundedlist">
 
 1. Does time period change the popularity (proportion of streams) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
-    a. Whether or not it is a weekday or weekend
-    b. Whether or not it is a holiday
-    c. Season (summer, winter, spring, fall)
+    a. Does whether or not it is a weekday change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    b. Does whether or not it is during the holiday season change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    c. Does what meteorological season it is change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
 2. Did the popularity of happy songs (mean valence) in the top 200 Spotify US daily streams change during Covid?
-    a. Before March 13, 2020 (exclusive)
-    b. After March 13, 2020 (inclusive)
 3. What parameters are the most important in predicting the popularity on Spotify in the US?
-    a. Popularity is calculated by summing 201 - Rank (i.e. rank 1 has score 200, rank 200 has score 1) over all the days they are on the Spotify Top 200 streams
 
 </ol>
 </div>
 
 
+-----------------------------------
 
 
-#### Methodology:
+### Analysis:
 
 
+> 1. Does time period change the popularity of genres in the Spotify US daily charts? <div class = "track__plays">(Question 1)</div>
+
+<div class="methods">
 
 
-
-
-> Question 1 <div class = "track__plays">(Time period and proportion of genres played)</div>
-
-- Use Spotify API to pull 2017-2021 US daily top track data
-- Join Spotify daily tracks data with Artist, Genre, and Tracks tables
-- Use two-sided two-sample large sample Z-test to answer subquestions a and b
-    - Perform the above test for each of the following genres: pop, rap, hip hop, r&b, and rock 
-- Use ANOVA to answer subquestion c to test the difference in proportion of a genre depending on the seasons
-    - Perform the above test for each of the following genres: pop, rap, hip hop, r&b, and rock 
+This question explores the proportion of songs of certain genres (pop, rap, hip hop, r&b, and rock) within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). As the chart above demonstrates, time plays an important part in what genres people listen to. For example, pop has a very strong seasonality component. People have also been listening to more rock, but less r&b. We want to look at smaller periods of time and see what effect they may have on the proportion of genres in Spotify’s Top 200 charts.
 
 
 
-> Question 2 <div class = "track__plays">(happiness of songs during Covid)</div>
+##### Data: 
 
-- Same dataset used in Question 2
-- Use two-sided two-sample large sample Z-test to answer question
+The variable of interest is the proportion of songs of a certain genre within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). This is calculated by grouping the data by the time-based constraint, and then calculating the proportion by summing the column for the genre being tested and dividing by the number of rows in that group. This works because summing the column is just counting the number of TRUEs in that column which is equivalent to the number of songs with that genre.
 
-
-> Question 3 <div class = "track__plays">(parameters for popularity)</div>
-
-- Popularity is calculated by summing $201$ - Rank (i.e. rank 1 has score 200, rank 200 has score 1) over all the days they are on the Spotify Top 200 streams
-- Use Linear Regression with all the features as a baseline model
-    - Possible features: `acousticness`, `danceability`, `duration`, `energy`, `instrumentalness`, `key`, `liveness`, `loudness`, `mode`, `speechiness`, `tempo`, `explicit`, `time_signature`, `valence`, `genre`
-    - Predicted value: calculated popularity
-- Remove features one by one to improve the $R^2$ score
-- Consider adding interaction effects and check the performance of the linear regression model. However, adding interaction effect will complicate the interpretability of the model
+While the actual calculation is done based on rows and ignores the track_id, in actuality, this calculation is equivalent to counting the unique songs of the genre and multiplying it by the number of days it has appeared on Spotify’s Top 200 chart (in the relevant time-period).
 
 
 
+##### Part a:
+
+
+> a. Does whether or not it is a weekday change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+
+
+A weekday is considered to be Monday, Tuesday, Wednesday, or Thursday. A weekend is considered to be Friday, Saturday, or Sunday.
+
+
+###### Statistical Methods
+
+
+The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
+
+- **Null hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is equal to the proportion of songs during weekends. $H_0\colon p_\mathrm{weekday} = p_\mathrm{weekend}$
+
+- **Alternative hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is NOT equal to the proportion of songs during weekends. $H_1\colon p_\mathrm{weekday} \neq p_\mathrm{weekend}$
+
+
+We want to compare the proportion of songs for each genre on weekdays vs weekends. The two samples (weekday and weekend) are independent with independent observations, and the sample sizes $n_\mathrm{weekday}$ and $n_\mathrm{weekend}$ are both large. 
+
+Under these assumptions, we can use the two-sided two-sample large sample Z-test to compare the proportions for each genre on weekdays vs the weekend. Because the test will be performed on 5 genres, a Bonferroni correction will be applied to the significance level by dividing 0.05 by 5 (the number of genres), resulting in a significance level of  = 0.01.
+
+The Z-value is calculated using a pooled sample proportion in the following equation: 
+
+$$
+\begin{align}
+Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && 
+\hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}
+\end{align}
+$$
+
+
+
+###### Results 
+
+Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same on weekdays and the weekend for all the genres tested (pop, rap, hip hop, r&b, and rock). 
+
+Looking at the bar chart, however, it is difficult to visually see much difference in the proportions for any genre. This demonstrates that although there is a statistically significant difference, the difference itself is not particularly strong. Interestingly, pop and r&b songs have a higher proportion during the week, whereas rap, hip hop, and rock have a higher proportion during the weekend.
+
+
+
+--------------------------------
+
+
+
+##### Part b:
+
+
+
+> b. Does whether or not it is during the holiday season change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+
+The holiday season is considered to be the day after. Thanksgiving through December 31st. 
+
+
+###### Statistical Methods
+
+The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
+
+- **Null hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is equal to the proportion of songs during the rest of the year. $H_0 \colon p_\mathrm{holiday} = p_\mathrm{not \, holiday}$
+
+- **Alternative hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is NOT equal to the proportion of songs during the rest of the year. $H_1 \colon p_\mathrm{holiday} \neq p_\mathrm{not \, holiday}$
+
+
+We want to compare the proportion of songs for each genre during the holiday season and otherwise. The two samples (holiday and not_holiday) are independent with independent observations, and the sample sizes $n_\mathrm{holiday}$ and $n_\mathrm{not \, holiday}$ are both large. 
+
+Under these assumptions, we can use the two-sided two-sample large sample Z-test to compare the proportions for each genre during the holiday season and otherwise. Because the test will be performed on 5 genres, a Bonferroni correction will be applied to the significance level by dividing 0.05 by 5 (the number of genres), resulting in a significance level of $\alpha = 0.01$.
+
+The Z-value is calculated using a pooled sample proportion in the following equation: 
+
+
+$$
+\begin{align}
+Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && 
+\hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}
+\end{align}
+$$
+
+
+
+###### Results
+
+
+Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same during the holiday season and otherwise for all the genres tested (pop, rap, hip hop, r&b, and rock). 
+
+This difference is also much more apparent in the bar chart as compared to the bar chart for subquestion A comparing weekday and weekend, meaning the difference is not only statistically significant, but also strong for a majority of the genres tested. Another interesting observation is that of the 5 genres tested, only rock has a higher proportion during the holiday season than outside of it.
+
+
+--------------------------------
+
+
+##### Part c:
+
+
+
+> c. Does what meteorological season it is change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+
+Spring is considered to be March, April, and May. Summer is considered to be June, July, and August. Fall is considered to be September, October, and November. Winter is considered to be December, January, and February.
+
+
+###### Statistical Methods
+
+The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock
+
+- **Null hypothesis:** There is no difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between the different seasons. $H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{winter}$
+
+**Alternative hypothesis:** There is a difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between at least two of the seasons. $H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$
+
+
+We want to compare the proportion of songs for each genre during each season. The four samples (spring, summer, fall, winter) are independent with independent observations, and the sample sizes are all large. 
+
+Under these assumptions, we can use the chi-squared test (which is the equivalent to the two-sided two-sample large sample Z-test, except it can handle more than 2 samples) to compare the proportions for each genre during each season. Because the test will be performed on 5 genres, a Bonferroni correction will be applied to the significance level by dividing 0.05 by 5 (the number of genres), resulting in a significance level of  = 0.01.
+
+The p-value was calculated using the chisq.test function with ‘correct’ set to false. The data input into this function looks similar to the following table (without the season column):
+
+
+###### Results
+
+Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same regardless of season for all the genres tested (pop, rap, hip hop, r&b, and rock).
+
+Some interesting observations from the bar chart include that rap seems to be much lower in the winter, and summer and spring appear to be the most similar in terms of proportion of genre.
+
+
+<div class = "discs"></div>
+
+
+</div>
 
 
 -----------------------------------
 
 
+> 2. Did the popularity of happy songs in the top 200 Spotify charts change during Covid? <div class = "track__plays">(Question 2)</div>
 
 
+<div class="methods">
+
+##### Calculated Variables:
+ 
+We use the Spotify Daily Top Tracks as described in the Data Description above. Particularly, question 2 makes use of the `track_name`, `valence`, and `Date` columns. Based on these columns, we created a `covid` variable to define whether a track entry was added to the top 200 playlist before Covid (`Date` < "03/13/2020") or after Covid (`Date` >= "03/13/2020"). Tracks added before Covid (03/13/2020) are labeled *before* whereas tracks added after Covid are labeled *after*.
+
+
+```{r}
+df$Date <- as.Date(df$Date) # Convert character to date
+df <- df %>%
+  mutate(covid = case_when(Date < "2020-03-13" ~ "before",
+                           Date >= "2020-03-13" ~ "after")) # Adding column based on other column
+```
+
+```{r}
+df.valence <- df %>%
+  select(Track.Name, valence, Date, covid)
+df.valence <- data.frame(df.valence[sample(1:nrow(df.valence)), ], row.names = NULL)
+df.valence <- head(df.valence, 10)
+colnames(df.valence) <- c("track", "valence", "date", "covid")
+
+```
+
+
+
+##### Statistical Method: 
+
+We want to compare mean valence values before and after Covid. For the data, the two samples (*before* and *after*) are independent with independent observations, and the sample sizes $n_{\mathrm{before}}$ and $n_{\mathrm{after}}$ are both large. Under these assumptions, we can use the **two-sided two-sample large sample Z-test** to compare the mean valences before and after Covid. This means that we compare the Z test statistic to the standard normal distribution.
+
+We test the null hypothesis of no difference between valence means, i.e., we define the null hypothesis as $H_0 : \mu_{\mathrm{before}} = \mu_{\mathrm{after}}$ versus the 2-sided alternative hypothesis $H_1 : \mu_{\mathrm{before}} \neq \mu_{\mathrm{after}}$, where $\mu_{\mathrm{before}}$ and $\mu_{\mathrm{after}}$ are the mean valences per song for songs added before and after Covid, respectively. The test is conducted at a significance level of $\alpha = 0.05$.
+
+
+##### Results: 
+
+First, we calculate the mean ($\mu_{\mathrm{before}}$, $\mu_{\mathrm{after}}$), standard deviation ($s_{\mathrm{before}}$, $s_{\mathrm{after}}$), and size ($n_{\mathrm{before}}$, $n_{\mathrm{after}}$) for each of the two samples. 
+
+```{r, echo=TRUE}
+m = with(df, tapply(valence, covid, mean))
+s = with(df, tapply(valence, covid, sd))
+n = with(df, tapply(valence, covid, length))
+```
+
+```{r}
+data.frame(m, s, n) %>% arrange(m) %>% 
+  kable(col.names = c("mean", "std dev", "size"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:2, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(2:4, color = "#555", extra_css = "font-weight: 300;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+
+```
+
+
+Using these values, we can then calculate the test statistic:
+
+$$
+\begin{align}
+Z & = 
+\frac{\left|\bar{X}_\mathrm{before} - \bar{X}_\mathrm{after}\right|}{\left. s^2_\mathrm{before} {\bf\large /} n_\mathrm{before}\right. + \left. s^2_\mathrm{after} {\bf\large /} n_\mathrm{after} \right.} = 
+\frac{\left|0.4572 - 0.4826 \right|}{\sqrt{0.2015^2 / 1117863 + 0.2273^2/592944}} = 
+72.379
+\end{align}
+$$
+
+
+Next, we calculate the p-value using the standard normal distribution (since $n_\mathrm{before}$ and $n_\mathrm{after}$ are both large). The p-value is a probability about the test statistic, calculated under the assumption that the null hypothesis is true.
+
+- If the p-value is less than $\alpha$ (i.e., $p \lt 0.05$), then we reject the null hypothesis of equal means.
+    - This would mean that the mean valences per song before and after Covid are not equal (i.e., the popularity of happy songs changed during Covid).
+- If the p-value is greater than $\alpha$ (i.e., $p \gt 0.05$), then we do not reject the null hypothesis of equal means.
+    - This would mean that the mean valences per song before and after Covid are equal (i.e., the popularity of happy songs did not change during Covid).
+
+
+
+```{r, echo=TRUE}
+z = (m[1] - m[2] - 0) / sqrt(sum(s^2 / n))
+p = 2 * (1 - pnorm(z))
+```
+
+
+
+The p-value for the test is $p \lt 0.001$. Based on the test, we reject the null hypothesis of equal valence means at the $0.05$ level of significance.
+
+
+We can also calculate the confidence interval for the difference between population means. A confidence interval provides additional information beyond the hypothesis test. In general, we can interpret a confidence interval as the set of all values of the population parameter that would not have been rejected by the corresponding hypothesis test. Hence, we can state the null hypothesis as $H_0: \mu_\mathrm{before} - \mu_\mathrm{after} = 0$ and then check whether the confidence interval contains the value $0$. 
+
+
+```{r, echo=TRUE}
+se = sqrt(s[1]^ 2 / n[1] + s[2]^ 2 / n[2])
+z.05 = qnorm(0.975)
+lower = m[1] - m[2] - z.05 * se
+upper = m[1] - m[2] + z.05 * se
+```
+
+
+The confidence interval for the difference between population means is $(0.0247, 0.0261)$, which is very similar to the result from the large-sample procedure. Hence, since the interval does not contain the value $0$, we would reject the null hypothesis $H_0: \mu_\mathrm{before} - \mu_\mathrm{after} = 0$ and conclude that the mean valences per song before and after Covid are different. 
+
+</div>
+
+
+-----------------------------------
+
+> 3. What parameters are the most important in predicting the popularity on Spotify in the US? <div class = "track__plays">(Question 3)</div>
+
+<div class="methods">
+
+
+##### Calculated Variables:
+
+
+For this question we used the Spotify Daily Top Tracks data described in the dataset section. We then aggregated the data by song id, so each song has its own row. Each song has the same values for each attribute so we take the mean of these attributes. These attributes include explicit, acousticness, danceability, duration, energy, instrumentalness, key, liveness, loudness, mode, speechiness, tempo and valence. Then, we created a new variable for popularity and named it updated_rank. To calculate the updated_rank we do 201 - Rank (i.e. rank 1 has score 200, rank 200 has score 1) so a  higher updated_rank means the song is performing better in the ranks. We then sum this updated_rank for each song to get a popularity score. This way the longer the song is in the Spotify top 200 the higher the popularity score. 
+
+
+
+
+##### Statistical Methods
+
+
+To answer this question we created three linear regression models and looked at the significance of each independent variable in each model. For each independent variable we look at the p-value for the t-test H0: x=0 and Ha: x0 for each variable,x, in the linear regression model. First we started by looking at the correlation matrix. 
+
+
+
+
+
+
+From the above correlation matrix graph we can see that streams and updated_rank are highly correlated. This makes sense since the rank on spotify is based on the number of streams. We will remove this variable when using linear regression as it is used in the formula to predict popularity and thus not an accurate predictor variable. Other than the total number of streams we can see that there is little to no correlation between the other variables and the updated_rank.
+
+We then continue on to make three linear regression models. Each model is described below:
+
+- Model1: Simple additive model using all predictor variables in the correlation matrix above
+- Model2: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms
+- Model3: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms and taking log base 10 of the updated_rank
+
+Below are the coefficient estimates, p-values and diagnostic plots for each model.
+
+
+Model 1: 
+Adjusted R-squared: 0.01226
+
+
+Model 2:
+Adjusted R-squared: 0.01749
+
+
+Model 3: 
+Adjusted R-squared: 0.3083
+
+
+
+
+
+##### Results
+
+
+We found that all three models were not great at predicting the popularity of a song. The adjusted R-squared for all three models were very low. Some of the predictor variables were significant, but the coefficients were too small to have a strong impact on updated_rank. 
+
+Another important thing to note is that none of the models meet the assumptions for linear regression. Constant variance does not hold as all the fitted vs. residuals plots are not evenly distributed around x = 0. Linearity does not hold as the mean in the fitted vs. residuals plot does not look close to 0 and normality is violated as the q-q plots do not follow a straight line. All three models are unreliable. 
+
+However, we look at the commonalities between the models to answer our question. In all three models danceability, energy and loudness or an interaction term containing one of these variables are statistically significant. Although the models do not meet the requirements needed for linear regression and they are not very accurate, since all three models show significance for the above variables we will cautiously conclude that danceability, energy and loudness are the most influential factors when modeling the popularity of a song on the spotify top 200. 
+
+
+
+
+
+
+</div>
+
+
+
+
+--------------------------------------------
 
 
 
