@@ -65,6 +65,7 @@ The **Daily Top 200 Charts** shows the top $200$ most streamed tracks each day f
 
 
 ```{r}
+library(reactablefmtr)
 df.daily <- read.csv("assets/data/us-daily-2022-02-23.csv")
 colnames(df.daily) <- c("rank", "uri", "artists", "track", "source", "peak", "previous", "streak", "streams")
 df.daily$difference <- (df.daily$rank - df.daily$previous)

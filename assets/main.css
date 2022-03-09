@@ -476,6 +476,10 @@ a.navbar-brand::before {
 	content: '';
 }
 
+.fa {
+  filter: drop-shadow(.75px 1.25px 0.5px rgb(0 0 0 / 0.45));
+
+}
 
 
 @media print {
