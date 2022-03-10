@@ -18,8 +18,7 @@ output:
     toc: no
     toc_float: no
 # knit: pagedown::chrome_print
-knit: (function(inputFile, encoding) {
-  rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
+knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
 
 ```{r setup, include=FALSE}
@@ -115,6 +114,7 @@ reactable(
   theme = spotify_theme2()
 )
 ```
+
 
 
 
