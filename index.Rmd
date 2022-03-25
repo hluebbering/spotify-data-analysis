@@ -279,17 +279,14 @@ While the actual calculation is done based on rows and ignores the track_id, in 
 
 > a. Does whether or not it is a weekday change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
 
-A weekday is considered to be Monday, Tuesday, Wednesday, or Thursday. A weekend is considered to be Friday, Saturday, or Sunday.
+A weekday is considered to be Monday, Tuesday, Wednesday, or Thursday. A weekend is considered to be Friday, Saturday, or Sunday. The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
 
-The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
+- **Null hypothesis:** $H_0\colon p_\mathrm{weekday} = p_\mathrm{weekend}$ - The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is equal to the proportion of songs during weekends. 
 
-**Null hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is equal to the proportion of songs during weekends. 
 
-$H_0\colon p_\mathrm{weekday} = p_\mathrm{weekend}$
+- **Alternative hypothesis:** $H_1\colon p_\mathrm{weekday} \neq p_\mathrm{weekend}$ - The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is NOT equal to the proportion of songs during weekends. 
 
-**Alternative hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during weekdays of the genre being tested is NOT equal to the proportion of songs during weekends. 
 
-$H_1\colon p_\mathrm{weekday} \neq p_\mathrm{weekend}$
 
 
 \ 
@@ -303,7 +300,7 @@ Under these assumptions, we can use the two-sided two-sample large sample Z-test
 
 The Z-value is calculated using a pooled sample proportion in the following equation: 
 
-$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && \hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}\end{align}$
+$$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && \hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}\end{align}$$
 
 
 \ 
@@ -311,9 +308,10 @@ $\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \r
 
 ##### Results
 
+\ 
 
 ```{r, out.width="100%"}
-pQ1A
+ggplotly(pQ1A)
 ```
 
 ```{r, out.width="40%", fig.show='hold', fig.align='default'}
@@ -335,18 +333,13 @@ Looking at the bar chart, however, it is difficult to visually see much differen
 
 > b. Does whether or not it is during the holiday season change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
 
-The holiday season is considered to be the day after Thanksgiving through December 31st.
+The holiday season is considered to be the day after Thanksgiving through December 31st. The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
 
-The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
-
-**Null hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is equal to the proportion of songs during the rest of the year. 
-
-$H_0 \colon p_\mathrm{holiday} = p_\mathrm{not \, holiday}$
+- **Null hypothesis:** $H_0 \colon p_\mathrm{holiday} = p_\mathrm{not \, holiday}$ - The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is equal to the proportion of songs during the rest of the year. 
 
 
-**Alternative hypothesis:** The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is NOT equal to the proportion of songs during the rest of the year. 
+- **Alternative hypothesis:** $H_1 \colon p_\mathrm{holiday} \neq p_\mathrm{not \, holiday}$ - The proportion of songs in the Spotify US Top 200 Daily Charts during the holiday season of the genre being tested is NOT equal to the proportion of songs during the rest of the year. 
 
-$H_1 \colon p_\mathrm{holiday} \neq p_\mathrm{not \, holiday}$
 
 
 \ 
@@ -374,9 +367,11 @@ $$
 
 ##### Results
 
+\ 
 
 ```{r, out.width="100%"}
-pQ1B
+#pQ1B
+ggplotly(pQ1B)
 ```
 
 
@@ -400,18 +395,12 @@ This difference is also much more apparent in the bar chart as compared to the b
 
 > c. Does what meteorological season it is change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
 
-Spring is considered to be March, April, and May. Summer is considered to be June, July, and August. Fall is considered to be September, October, and November. Winter is considered to be December, January, and February.
+Spring is considered to be March, April, and May. Summer is considered to be June, July, and August. Fall is considered to be September, October, and November. Winter is considered to be December, January, and February. The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
+
+- **Null hypothesis:** $H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{winter}$ - There is no difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between the different seasons. 
 
 
-The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
-
-**Null hypothesis:** There is no difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between the different seasons. 
-
-$H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{winter}$
-
-**Alternative hypothesis:** There is a difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between at least two of the seasons. 
-
-$H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$
+- **Alternative hypothesis:** $H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$ - There is a difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between at least two of the seasons. 
 
 
 \ 
@@ -431,9 +420,12 @@ The p-value was calculated using the chisq.test function with ‘correct’ set 
 
 ##### Results
 
+\ 
+
 
 ```{r, out.width="100%"}
-pQ1C
+# pQ1C
+ggplotly(pQ1C)
 ```
 
 
@@ -464,7 +456,6 @@ We can also see that the maximum increase from one season to another is over 35%
 
 
 ```{r, out.width="100%"}
-pQ2
 ggplotly(pQ2)
 ```
 
@@ -502,19 +493,15 @@ preview.Q2
 
 We want to compare the average valence values for track entries added to Spotify’s Top 200 playlists before and after Covid, i.e., March 13, 2020. For the data, the two samples (*before* and *after*) are independent with independent observations, and the sample sizes $n_{\mathrm{before}}$ and $n_{\mathrm{after}}$ are both large. Under these assumptions, we can use the **two-sided two-sample large sample Z-test** to compare the mean valences before and after Covid. This means that we compare the Z test statistic to the standard normal distribution.
 
-The hypothesis tests were performed as follows, where $\mu_{\mathrm{before}}$ and $\mu_{\mathrm{after}}$ are the mean valences per song for songs added before and after Covid, respectively. 
-
-**Null Hypothesis:** There is no difference between mean valences per song in Spotify’s Top 200 before and after Covid.
-
-$H_0 : \mu_{\mathrm{before}} = \mu_{\mathrm{after}}$
+The hypothesis tests were performed as follows, where $\mu_{\mathrm{before}}$ and $\mu_{\mathrm{after}}$ are the mean valences per song for songs added before and after Covid, respectively. The test is conducted at a significance level of $\alpha = 0.05$.
 
 
-**Alternative Hypothesis:** There is a difference between mean valences per song in Spotify’s Top 200 before and after Covid.
-
-$H_1 : \mu_{\mathrm{before}} \neq \mu_{\mathrm{after}}$
+- **Null Hypothesis:** $H_0 : \mu_{\mathrm{before}} = \mu_{\mathrm{after}}$ - There is no difference between mean valences per song in Spotify’s Top 200 before and after Covid.
 
 
-The test is conducted at a significance level of $\alpha = 0.05$.
+
+- **Alternative Hypothesis:** $H_1 : \mu_{\mathrm{before}} \neq \mu_{\mathrm{after}}$ - There is a difference between mean valences per song in Spotify’s Top 200 before and after Covid.
+
 
 \ 
 
@@ -708,7 +695,7 @@ The estimates of the coefficients and their p-values are below:
 dfQ3R1 <- data.frame("Estimate" = c("2.521", "1.003","5.081e-07", "-1.364e-01", "-5.448e-01", "-7.221e-02", "-6.841e-01", "1.117e-03", "1.877e-01"), "P Value" = c("2e-16", "2e-16", "0.045577", "0.108633", "0.000215", "0.008720", "9.82e-11", "0.011740", "0.005147"), row.names = c("(Intercept)", "danceability", "duration", "energy", "instrumentalness", "mode", "speechiness", "tempo", "valence"))
 
 kable(dfQ3R1) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
   row_spec(0:9, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(2:3, color = "#555", extra_css = "font-weight: 300 !important;") %>%
@@ -719,7 +706,7 @@ kable(dfQ3R1) %>%
 Overall, we can see that danceability has the highest coefficient estimate out of all the other independent variables, so increasing the danceability score by 1 would have more effect on the popularity score than changing any other variables by 1. Let’s take a closer look at the relationship between danceability and the popularity score.
 
 ```{r, out.width="100%"}
-pQ3A
+ggplotly(pQ3A)
 ```
 
 
@@ -775,7 +762,6 @@ We faced some major limitations in terms of our dataset which are as follows –
 ---------------------------------------------------
 
 
-## References
 
 
 

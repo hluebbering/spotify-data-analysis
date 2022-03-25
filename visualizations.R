@@ -151,8 +151,8 @@ preview.Q1 <- kable(
     "Hiphop" = c("FALSE", "FALSE", "FALSE", "FALSE"),
     "Rb" = c("FALSE", "FALSE", "FALSE", "FALSE"),
     "Rock" = c("FALSE", "FALSE", "FALSE", "FALSE"))) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 11)  %>%
-  row_spec(row = c(0:4), hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;")  %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 11)  %>%
+  row_spec(row = c(0:4), hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;")  %>%
   column_spec(1:10, color = "#555", extra_css = "font-weight: 300;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 10.5px") %>%
   scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important;")
@@ -165,8 +165,8 @@ dfQ1AR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                       "% Difference" = c("2.65%", "-1.84%", "-2.25%", "5.17%", "-7.02%"))
 
 dfQ1AR1 <- kable(dfQ1AR1, col.names = c("Genre", "Weekday", "Weekend", "Difference", "$%$ Difference"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
@@ -180,8 +180,8 @@ dfQ1AR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                      "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
 
 dfQ1AR <- kable(dfQ1AR, col.names = c("Genre", "$Z$ Value", "P-Value", "Significant"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
@@ -196,8 +196,8 @@ dfQ1BR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                       "% Difference" = c("13.73%", "23.90%", "29.12%", "13.87%", "-127.76%"))
 
 dfQ1BR1 <- kable(dfQ1BR1, col.names = c("Genre", "Not Holiday", "Holiday", "Difference", "$%$ Difference"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
@@ -211,8 +211,8 @@ dfQ1BR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                      "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
 
 dfQ1BR <- kable(dfQ1BR, col.names = c("Genre", "$Z$ Value", "P-Value", "Significant"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
@@ -228,8 +228,8 @@ dfQ1CR1 <- data.frame("Genre"	 = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                       "% Increase" = c("4.39%", "10.28%", "7.98%", "36.65%", "38.19%"))
 
 dfQ1CR1 <- kable(dfQ1CR1, col.names = c("Genre", "Spring", "Summer", "Fall", "Winter", "Max Difference", "% Increase"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:7, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
@@ -245,8 +245,8 @@ dfQ1CR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
                      "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
 
 dfQ1CR <- kable(dfQ1CR, col.names = c("Genre", "$X^2$ Value", "P-Value", "Significant"), escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
@@ -296,8 +296,8 @@ df.valence <- head(df.valence, 10)
 colnames(df.valence) <- c("track", "valence", "date", "covid")
 
 preview.Q2 <- kable(df.valence, escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
-  row_spec(0:10, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:10, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(2:4, color = "#555", extra_css = "font-weight: 300;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
