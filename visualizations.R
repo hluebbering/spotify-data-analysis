@@ -46,6 +46,96 @@ pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, colo
         plot.background = element_rect(fill = "#1D1D1D"))
 
 
+################## QUESTION 1A ##################
+
+dfQ1$Day <- weekdays(as.Date(dfQ1$Date))
+weekdays1 <- c('Monday', 'Tuesday', 'Wednesday', 'Thursday')
+dfQ1$day_type <- factor((weekdays(dfQ1$Date) %in% weekdays1), 
+                   levels=c(FALSE, TRUE), labels=c('weekend', 'weekday'))
+
+
+pQ1A <- ggplot(data = dfQ1, mapping=aes(x=genre, y = Freq, fill = day_type)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual(values = c("#4D49BE", "#C8E379")) +
+  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
+  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
+        axis.text.y = element_text(size = 8),
+        plot.title = element_text(color = "white", size = 12, face = "bold"),
+        axis.text = element_text(color = "white", size = 10),
+        axis.title.x = element_text(color = "white", size = 10),
+        axis.title.y = element_text(color = "white", size = 10),
+        legend.background = element_rect(fill = "#3F3F3F"),
+        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
+        legend.text = element_text(color = "white", size = 10),
+        legend.title = element_text(color = "white", size = 10),
+        panel.background = element_rect(fill = "#3F3F3F"),
+        panel.grid = element_line(color = "#262626"),
+        plot.background = element_rect(fill = "#1D1D1D"))
+
+
+################## QUESTION 1B ##################
+
+
+dfQ1$Date2 <- format(dfQ1$Date, "%m-%d")
+
+dfQ1 <- dfQ1 %>% mutate(holiday_season = ifelse(Date2 >= "11-25" & Date2 <= "12-31", 
+                                         "holiday_season", "not_holiday_season"))
+
+pQ1B <- ggplot(data = dfQ1, mapping=aes(x=genre, y=Freq, fill = holiday_season)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual(values = c("#EEDAEA","#2CC84D")) +
+  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
+  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
+        axis.text.y = element_text(size = 8),
+        plot.title = element_text(color = "white", size = 12, face = "bold"),
+        axis.text = element_text(color = "white", size = 10),
+        axis.title.x = element_text(color = "white", size = 10),
+        axis.title.y = element_text(color = "white", size = 10),
+        legend.background = element_rect(fill = "#3F3F3F"),
+        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
+        legend.text = element_text(color = "white", size = 10),
+        legend.title = element_text(color = "white", size = 10),
+        panel.background = element_rect(fill = "#3F3F3F"),
+        panel.grid = element_line(color = "#262626"),
+        plot.background = element_rect(fill = "#1D1D1D"))
+
+################## QUESTION 1C ##################
+
+
+dfQ1$Month <- months(as.Date(dfQ1$Date))
+spring <- c('March', 'April', 'May')
+summer <- c('June', 'July', 'August')
+fall <- c('September', 'October', 'November')
+winter <- c('December', 'January', 'February')
+
+dfQ1 <- dfQ1 %>%
+  mutate(
+    season = case_when(
+      Month %in% spring ~ "Spring",
+      Month %in%  summer  ~ "Summer",
+      Month %in%  fall  ~ "Fall",
+      Month %in% winter ~ "Winter"))
+
+
+pQ1C <- ggplot(data = dfQ1, mapping=aes(x=genre, y=Freq, fill = season)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  scale_fill_manual(values = c("#4D49BE", "#C8E379", "#EEDAEA","#2CC84D")) +
+  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
+  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
+        axis.text.y = element_text(size = 8),
+        plot.title = element_text(color = "white", size = 12, face = "bold"),
+        axis.text = element_text(color = "white", size = 10),
+        axis.title.x = element_text(color = "white", size = 10),
+        axis.title.y = element_text(color = "white", size = 10),
+        legend.background = element_rect(fill = "#3F3F3F"),
+        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
+        legend.text = element_text(color = "white", size = 10),
+        legend.title = element_text(color = "white", size = 10),
+        panel.background = element_rect(fill = "#3F3F3F"),
+        panel.grid = element_line(color = "#262626"),
+        plot.background = element_rect(fill = "#1D1D1D"))
+
+
 ################## QUESTION 1 TABLES ##################
 
 
@@ -61,10 +151,105 @@ preview.Q1 <- kable(
     "Hiphop" = c("FALSE", "FALSE", "FALSE", "FALSE"),
     "Rb" = c("FALSE", "FALSE", "FALSE", "FALSE"),
     "Rock" = c("FALSE", "FALSE", "FALSE", "FALSE"))) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = FALSE, html_font = "Roboto", font_size = 11)  %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 11)  %>%
   row_spec(row = c(0:4), hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;")  %>%
   column_spec(1:10, color = "#555", extra_css = "font-weight: 300;") %>%
-  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 10.5px")
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 10.5px") %>%
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important;")
+
+
+dfQ1AR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                      "Weekday" = c(0.3607, 0.3969, 0.1489, 0.0186, 0.0340),
+                      "Weekend" = c(0.3512, 0.4042, 0.1523, 0.0176, 0.0363),
+                      "Difference" = c(0.0096, -0.0073, -0.0034, 0.0010, -0.0024),
+                      "% Difference" = c("2.65%", "-1.84%", "-2.25%", "5.17%", "-7.02%"))
+
+dfQ1AR1 <- kable(dfQ1AR1, col.names = c("Genre", "Weekday", "Weekend", "Difference", "$%$ Difference"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
+  column_spec(2, background = "#4D49BE",color = "white", extra_css = "font-weight: 300 !important;") %>%
+  column_spec(3, background = "#C8E379",color = "black", extra_css = "font-weight: 300 !important;")
+
+
+dfQ1AR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                     "$Z$ Value" = c(12.8944, -9.6403, -6.0738, 4.6519, -8.3912),
+                     "P-Value" = c("4.8375e-38", "5.4052e-22", "1.2491e-09", "3.2891e-06", "4.8109e-17"),
+                     "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
+
+dfQ1AR <- kable(dfQ1AR, col.names = c("Genre", "$Z$ Value", "P-Value", "Significant"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+
+
+
+
+dfQ1BR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                      "Not Holiday" = c(0.3614, 0.4094, 0.1547, 0.0184, 0.0312),
+                      "Holiday" = c(0.3118, 0.3116, 0.1096, 0.0159, 0.0710),
+                      "Difference" = c(0.0496, 0.0978, 0.0450, 0.0026, -0.0398),
+                      "% Difference" = c("13.73%", "23.90%", "29.12%", "13.87%", "-127.76%"))
+
+dfQ1BR1 <- kable(dfQ1BR1, col.names = c("Genre", "Not Holiday", "Holiday", "Difference", "$%$ Difference"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
+  column_spec(2, background = "#EEDAEA",color = "white", extra_css = "font-weight: 300 !important;") %>%
+  column_spec(3, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;")
+
+
+dfQ1BR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                     "$Z$ Value" = c(-39.927, -76.965, -48.5640, -7.3751, 83.4927),
+                     "P-Value" = c("0", "0", "0", "1.6425e-13", "0"),
+                     "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
+
+dfQ1BR <- kable(dfQ1BR, col.names = c("Genre", "$Z$ Value", "P-Value", "Significant"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+
+
+
+dfQ1CR1 <- data.frame("Genre"	 = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                      "Spring" = c(0.3624, 0.4137, 0.1541, 0.0190, 0.0285),
+                      "Summer"= c(0.3629, 0.4069, 0.1542, 0.0152, 0.0355),
+                      "Fall" = c(0.3535, 0.4047, 0.1504, 0.0208, 0.0371),
+                      "Winter" = c(0.3476, 0.3751, 0.1428, 0.0178, 0.0394),
+                      "Max Difference" = c(0.0153, 0.0386, 0.0114, 0.0056, 0.0109),
+                      "% Increase" = c("4.39%", "10.28%", "7.98%", "36.65%", "38.19%"))
+
+dfQ1CR1 <- kable(dfQ1CR1, col.names = c("Genre", "Spring", "Summer", "Fall", "Winter", "Max Difference", "% Increase"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(1:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:7, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
+  column_spec(2, background = "#C8E379",color = "white", extra_css = "font-weight: 300 !important;") %>%
+  column_spec(3, background = "#EEDAEA",color = "black", extra_css = "font-weight: 300 !important;")%>%
+  column_spec(4, background = "#4D49BE",color = "black", extra_css = "font-weight: 300 !important;")%>%
+  column_spec(5, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;")
+
+
+dfQ1CR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
+                     "$X^2$ Value" = c(147.82, 701.28, 218.88, 359.73, 827.5),
+                     "P-Value" = c("$\\lt$ 2.2e-16", "$\\lt$ 2.2e-16", "$\\lt$ 2.2e-16", "$\\lt$ 2.2e-16", "$\\lt$ 2.2e-16"),
+                     "Significant" = c(TRUE, TRUE, TRUE, TRUE, TRUE))
+
+dfQ1CR <- kable(dfQ1CR, col.names = c("Genre", "$X^2$ Value", "P-Value", "Significant"), escape = F) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:5, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(1:4, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
 
 
 
@@ -116,5 +301,85 @@ preview.Q2 <- kable(df.valence, escape = F) %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(2:4, color = "#555", extra_css = "font-weight: 300;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+
+
+
+
+###################################################### 
+################## QUESTION 3 PLOTS ##################
+
+
+
+dfQ3 <- df %>% select(c(track_id, acousticness, danceability, energy, duration, instrumentalness, key, liveness, loudness, mode, speechiness, tempo, valence))
+dfQ3$updated_rank <- 201 - df$Rank
+
+
+dfQ3A <- dfQ3 %>% 
+  group_by(track_id) %>%
+  summarise(
+    acousticness = mean(acousticness, na.rm=T),
+    danceability = max(danceability, na.rm=T),
+    energy = mean(energy, na.rm=T), 
+    duration = mean(duration, na.rm=T), 
+    instrumentalness = mean(instrumentalness, na.rm=T), 
+    key = mean(key, na.rm=T), 
+    liveness = mean(liveness, na.rm=T), 
+    loudness = mean(loudness, na.rm=T), 
+    mode = mean(mode, na.rm=T), 
+    speechiness = mean(speechiness, na.rm=T), 
+    tempo = mean(tempo, na.rm=T), 
+    valence = mean(valence, na.rm=T),
+    popularity_score = sum(updated_rank))
+
+
+pQ3A <- ggplot(data = dfQ3A, mapping=aes(x=danceability, y=popularity_score)) +
+  geom_point(colour = "#C8E379") + ylab("Popularity Score") +
+  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
+  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
+        axis.text.y = element_text(size = 8),
+        plot.title = element_text(color = "white", size = 12, face = "bold"),
+        axis.text = element_text(color = "white", size = 10),
+        axis.title.x = element_text(color = "white", size = 10),
+        axis.title.y = element_text(color = "white", size = 10),
+        legend.background = element_rect(fill = "#3F3F3F"),
+        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
+        legend.text = element_text(color = "white", size = 10),
+        legend.title = element_text(color = "white", size = 10),
+        panel.background = element_rect(fill = "#3F3F3F"),
+        panel.grid = element_line(color = "#262626"),
+        plot.background = element_rect(fill = "#1D1D1D"))
+
+
+dfQ3B <- dfQ3A %>% 
+  pivot_longer(
+    cols = c('acousticness', 'energy', 'duration', 'instrumentalness', 
+             'key', 'liveness', 'loudness', 'mode', 'speechiness', 'tempo', 
+             'valence'), 
+    names_to = "audio_feature", 
+    values_to = "audio_feature_vals"
+  )
+
+
+
+pQ3B <- ggplot(data = dfQ3B, mapping = aes(x = audio_feature_vals, y = popularity_score)) +
+  geom_point(colour = "#C8E379") +
+  ylab("Popularity Score") +
+  facet_wrap(~audio_feature, scales="free_x", switch = "x") + 
+  theme(axis.text.x=element_text(hjust=1, size = 6), 
+        axis.text.y = element_text(size = 6),
+        plot.title = element_text(color = "white", size = 12, face = "bold"),
+        axis.text = element_text(color = "white", size = 10),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(color = "white", size = 10),
+        legend.background = element_rect(fill = "#3F3F3F"),
+        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
+        legend.text = element_text(color = "white", size = 10),
+        legend.title = element_text(color = "white", size = 10),
+        panel.background = element_rect(fill = "#3F3F3F"),
+        panel.grid = element_line(color = "#262626"),
+        plot.background = element_rect(fill = "#1D1D1D"),
+        strip.background = element_rect(color="transparent", fill="transparent", size=1),
+        strip.text = element_text(size = 8, colour = "white"),
+        strip.placement = "outside")
 
 

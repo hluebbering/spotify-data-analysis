@@ -41,8 +41,8 @@ h3.subtitle {
 	letter-spacing: 1px;
 	display: inline-flex;
 	padding: 15px 0;
-	padding-right: 36pt !important;
 	text-shadow: 1px 1px 2px rgb(0 0 0 / 40%);
+	margin-bottom: 30px;
 
 }
 div#header {
@@ -67,34 +67,38 @@ h2 {
 
 }
 h3 {
-	font-family: proxima-nova, sans-serif;
-	font-size: 18pt;
-	text-transform: uppercase;
-	color: #808080;
-	letter-spacing: 1px;
-	font-weight: 400;
-	text-shadow: 0.5px 0.5px 1px rgb(0 0 0 / 40%);
+    font-family: proxima-nova, sans-serif;
+    font-size: 18pt;
+    text-transform: uppercase;
+    color: hsl(0deg 0% 34%);
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-shadow: 0.5px 0.5px 1px rgb(0 0 0 / 40%);
 }
 
 
 h4 {
-	font-family: proxima-nova, sans-serif;
-	font-size: 14pt;
-	color: #313132;
-	font-weight: 600;
-	padding-top: 25px;
-	text-transform: uppercase;
-	text-shadow: 0.5px 0.5px 1px rgb(0 0 0 / 40%);
+    font-family: proxima-nova, sans-serif;
+    font-size: 15pt;
+    color: hsl(0deg 0% 50%);
+    font-weight: 500;
+    text-transform: uppercase;
+    text-shadow: 0.25px 0.25px 0.5px rgb(0 0 0 / 65%);
 }
+
 h5 {
-	font-weight: 700;
-	font-size: 13pt;
-	font-family: proxima-nova, sans-serif;
-	color: #1cca59;
-	display: block;
-	margin-top: 8px;
-	margin-bottom: 4px;
+    font-weight: 400;
+    font-size: 12pt;
+    font-family: proxima-nova, sans-serif;
+    color: hsl(240deg 1% 40%);
+    display: block;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0.25px 0.25px 0.25px hsl(240deg 1% 10%);
 }
+
+
 body {
 	font-family: 'Source Serif Pro', serif;
 	margin: 30.6px;
@@ -162,7 +166,6 @@ blockquote::before {
 }
 blockquote::after {
 	background: linear-gradient(#00b2ff, #00ffbb, #6bff6b);
-	/* filter: blur(5px); */
 	content: "";
 	width: 5px;
 	height: 41px;
@@ -195,13 +198,7 @@ blockquote .track__plays {
 	font-size: 9pt;
 	text-transform: uppercase;
 }
-.methods {
-	margin: 0 22px 0 22px !important;
-}
-.methods strong {
-	color: black;
-	font-weight: 700;
-}
+
 .roundedlist ol {
 	list-style: none !important;
 	counter-reset: my-awesome-counter;
@@ -217,31 +214,30 @@ blockquote .track__plays {
 	margin-bottom: 12pt;
 }
 .roundedlist li::before {
-	font-family: roboto, sans-serif !important;
-	content: counter(my-awesome-counter);
-	color: #1ed760 !important;
-	width: 24px;
-	height: 24px;
-	line-height: 24px;
-	border-radius: 50%;
-	display: inline-block;
-	text-align: center;
-	margin-right: 6px;
-	font-weight: 800;
-	margin-top: 3.5px !important;
-	-webkit-print-color-adjust: exact;
-	margin-left: -30px !important;
-	filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
-	text-shadow: 1px 1px 1px #000;
-	background-color: #383838;
-	border-radius: 100%;
-	box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%);
+    font-family: roboto, sans-serif !important;
+    content: counter(my-awesome-counter);
+    color: #5eff7b !important;
+    width: 18pt;
+    height: 18pt;
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    font-weight: 800;
+    -webkit-print-color-adjust: exact;
+    margin-left: -30px !important;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+    text-shadow: 1px 1px 1px #000;
+    background-color: #383838;
+    border-radius: 100%;
+    box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%);
+    float: left;
+    align-items: center;
 }
+
 ol.roundedlist {
 	padding-left: 14pt;
 }
-b,
-strong {
+b, strong {
 	font-weight: 700;
 	font-size: 11pt;
 	font-family: proxima-nova, sans-serif;
@@ -261,15 +257,18 @@ strong {
 	margin-bottom: 6pt !important;
 }
 .roundedlist ol ol li::before {
-  font-size: 10pt;
-  content: counter(my-awesome-counter, lower-alpha) !important;
-  width: 14pt;
-  text-align: center;
-  height: 14pt;
-  align-content: center;
-  line-height: 13pt;
-  font-weight: 400;
+    font-size: 10pt;
+    content: counter(my-awesome-counter, lower-alpha) !important;
+    text-align: center;
+    font-weight: 500;
+    width: 15pt;
+    height: 15pt;
 }
+
+.roundedlist ol ol {
+    margin-top: 6pt;
+}
+
 span.mlist {
 	font-family: roboto, sans-serif !important;
 	color: #333 !important;
@@ -346,7 +345,6 @@ span.mlist {
 	background: #f9f9f9;
 	padding: 12px 22px;
 	border-radius: 15pt;
-	/*box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1);*/
 	box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
 }
 h3.subtitle::before {
@@ -435,6 +433,7 @@ a.navbar-brand::before {
 	-moz-box-shadow: 0px 10px 25px rgba(51, 51, 51, 0.3);
 	box-shadow: 0px 10px 25px rgb(51 51 51 / 30%);
 }
+
 .methods ul li::before {
 	background: linear-gradient(0deg, #fff, #ddd);
 	content: "";
@@ -500,192 +499,10 @@ a.navbar-brand::before {
 }
 
 
-@media print {
-	.css-1q2ea2m {
-		color: rgb(51, 51, 51) !important;
-		background-color: rgb(250, 249, 252) !important;
-		border: 4px solid #ececec !important;
-		box-shadow: 0px 10px 25px rgb(51 51 51 / 30%) !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.navbar {
-		display: inherit;
-	}
-	.navbar-default {
-		border-color: #e7e7e7 !important;
-		background-color: #282828 !important;
-		color: #aaaaaa !important;
-		border-bottom: 1px solid #181818 !important;
-		-webkit-print-color-adjust: exact;
-	}
-	a.navbar-brand {
-		color: #aaaaaa !important;
-		-webkit-print-color-adjust: exact;
-	}
-	a.navbar-brand::before {
-		content: url(static/spotify1.svg);
-		zoom: 0.05;
-		background-repeat: no-repeat;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote {
-		border-left: 5px solid #1DB954 !important;
-		box-shadow: 1px 1px 6px 0px darkgrey !important;
-		border-top: 1px solid #282828 !important;
-		background: #181818 !important;
-		color: white !important;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote ol li {
-		color: white !important;
-		font-weight: 400;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote::marker {
-		color: #aaaaaa !important;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote a {
-		color: white !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify1 h5:after {
-		content: url(static/arrow1.svg);
-		zoom: 0.05;
-		background-repeat: no-repeat;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify1 ul li:before {
-		content: url(static/user2.svg);
-		zoom: 0.0185;
-		width: auto;
-		padding-right: 4in !important;
-		background-repeat: no-repeat;
-		-webkit-print-color-adjust: exact;
-	}
-	h3.subtitle {
-		border-bottom: 5px solid #1ed760 !important;
-		text-shadow: 0 2px 2px rgb(0 0 0 / 25%) !important;
-		-webkit-print-color-adjust: exact;
-	}
-	h3.subtitle:before {
-		content: url(static/spotify1.svg);
-		zoom: 0.05;
-		width: auto;
-		margin-top: -1.5in !important;
-		background-repeat: no-repeat;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify2 {
-		background: #f9f9f9 !important;
-		box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%) !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify2 h3::before {
-		content: url(static/spotify3.svg);
-		zoom: 0.075;
-		width: auto;
-		background-repeat: no-repeat;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote ol li::marker {
-		color: #aaaaaa !important;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote .track__plays {
-		color: #aaaaaa !important;
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote::before {
-		background: linear-gradient(#00b2ff, #00ffbb, #6bff6b) !important;
-		filter: blur(3px);
-		content: "";
-		-webkit-print-color-adjust: exact;
-	}
-	blockquote::after {
-		background: linear-gradient(#00b2ff, #00ffbb, #6bff6b) !important;
-		content: "";
-		-webkit-print-color-adjust: exact;
-	}
-	span.mlist {
-		-webkit-print-color-adjust: exact;
-		text-shadow: 0 1px 1px #7776 !important;
-		-webkit-box-shadow: inset 1px 0 25px #f1f1f1, 0 1px 0 #cfcfcf, 0 1px 0 #777, 0 1px 1px #1d1e22 !important;
-		background-color: #ffffff !important;
-	}
-	code {
-		background-color: rgba(0, 0, 0, 0.04) !important;
-		box-shadow: 1px 1px 1px 0px #ddd inset, -1px -1px 1px 0px #e6e6e6 inset !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify1 {
-		background: #282828 !important;
-		color: #aaaaaa !important;
-		border-bottom: 1px solid #181818 !important;
-		box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%) !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify1 h4,
-	.spotify1 h5 {
-		color: white !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.spotify1 ul li {
-		color: #aaaaaa !important;
-		font-weight: 300;
-		-webkit-print-color-adjust: exact;
-	}
-	.roundedlist li::before {
-		background: #333 !important;
-		color: #1ed760 !important;
-		box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%) !important;
-		text-shadow: 1px 1px 1px #000 !important;
-		-webkit-print-color-adjust: exact;
-	}
-	b,
-	strong {
-		color: #1cca59 !important;
-		-webkit-print-color-adjust: exact;
-	}
-	.table {
-		box-shadow: rgb(50 50 93 / 25%) 0px 2px 5px -1px, rgb(0 0 0 / 30%) 0px 1px 3px -1px !important;
-		-webkit-print-color-adjust: exact;
-	}
-	img {
-		box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%) !important;
-	}
-	h2 {
-		text-shadow: 0 2px 2px rgb(0 0 0 / 25%) !important;
-	}
-	
-	.fa-minus:before {
-	  color: #e91e63 !important;
-    filter: drop-shadow(1px 1px 1px #0000007d);
-	}
-	
-	.fa-arrow-down:before {
-	  color: #e91e63 !important;
-    filter: drop-shadow(1px 1px 1px #0000007d);
-	}
-	
-	.fa-arrow-up:before {
-	  color: #e91e63 !important;
-    filter: drop-shadow(1px 1px 1px #0000007d);
-	}
-	
-	.table td, .table th {
-	  background-color: transparent !important;
-}
-
-  .table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: #f9f9f9 !important;
-    -webkit-print-color-adjust: exact;
-}
-
-  .table-striped>tbody>tr:nth-of-type(even) {
-    background-color: white !important;
-    -webkit-print-color-adjust: exact;
-}
-
-
+.MathJax_Display {
+    font-size: 11pt !important;
+    overflow-x: scroll;
+    height: 100%;
+    width: 105% !important;
+    padding: 6px;
 }

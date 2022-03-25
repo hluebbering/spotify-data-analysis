@@ -15,8 +15,9 @@ date: |
 output:
   html_document: 
     css: assets/main.css
-    toc: no
-    toc_float: no
+    toc: yes
+    toc_float: yes
+    self_contained: yes
 # knit: pagedown::chrome_print
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
@@ -36,6 +37,7 @@ library(ggplot2)
 library(hrbrthemes)
 library(ggcorrplot)
 library(reactablefmtr)
+library(tidyr)
 
 df <- readRDS(file = "assets/data/spotify_data.rds")
 source("visualizations.R")
@@ -246,20 +248,21 @@ df.description  %>%
 <div class="methods">
 
 
+
 ```{r pQ1, out.width="100%"}
-# pQ1
 ggplotly(pQ1)
 ```
 
 
 
-This question explores the proportion of songs of certain genres (pop, rap, hip hop, r&b, and rock) within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). As the chart above demonstrates, time plays an important part in what genres people listen to. For example, pop has a very strong seasonality component. People have also been listening to more rock, but less r&b. We want to look at smaller periods of time and see what effect they may have on the proportion of genres in Spotify’s Top 200 charts.
+This question explores the proportion of songs of certain genres (pop, rap, hip hop, r&b, and rock) within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). As the chart above demonstrates, time plays an important part in what genres people listen to. For example, pop has a very strong seasonality component. People have also been listening to more rock, but less r&b. We want to look at smaller periods of time and see what effect they may have on the proportion of genres in Spottiness's Top 200 charts.
 
 
 #### Data
 
 ```{r previewQ1, out.width="100%"}
 preview.Q1
+
 ```
 
 
@@ -267,6 +270,9 @@ preview.Q1
 The variable of interest is the proportion of songs of a certain genre within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). This is calculated by grouping the data by the time-based constraint, and then calculating the proportion by summing the column for the genre being tested and dividing by the number of rows in that group. This works because summing the column is just counting the number of TRUEs in that column which is equivalent to the number of songs with that genre.
 
 While the actual calculation is done based on rows and ignores the track_id, in actuality, this calculation is equivalent to counting the unique songs of the genre and multiplying it by the number of days it has appeared on Spotify’s Top 200 chart (in the relevant time-period).
+
+
+\ 
 
 
 #### Subquestion A
@@ -286,7 +292,7 @@ $H_0\colon p_\mathrm{weekday} = p_\mathrm{weekend}$
 $H_1\colon p_\mathrm{weekday} \neq p_\mathrm{weekend}$
 
 
-
+\ 
 
 ##### Statistical Methods
 
@@ -300,8 +306,21 @@ The Z-value is calculated using a pooled sample proportion in the following equa
 $\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && \hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}\end{align}$
 
 
+\ 
+
 
 ##### Results
+
+
+```{r, out.width="100%"}
+pQ1A
+```
+
+```{r, out.width="40%", fig.show='hold', fig.align='default'}
+dfQ1AR1
+dfQ1AR
+```
+
 
 
 Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same on weekdays and the weekend for all the genres tested (pop, rap, hip hop, r&b, and rock). 
@@ -330,6 +349,7 @@ $H_0 \colon p_\mathrm{holiday} = p_\mathrm{not \, holiday}$
 $H_1 \colon p_\mathrm{holiday} \neq p_\mathrm{not \, holiday}$
 
 
+\ 
 
 ##### Statistical Methods
 
@@ -349,8 +369,24 @@ Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/
 \end{align}
 $$
 
+\ 
+
 
 ##### Results
+
+
+```{r, out.width="100%"}
+pQ1B
+```
+
+
+```{r, out.width="40%", fig.show='hold', fig.align='default'}
+dfQ1BR1
+dfQ1BR
+```
+
+
+
 
 Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same during the holiday season and otherwise for all the genres tested (pop, rap, hip hop, r&b, and rock). 
 
@@ -378,6 +414,8 @@ $H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{
 $H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$
 
 
+\ 
+
 
 ##### Statistical Methods
 
@@ -388,8 +426,21 @@ Under these assumptions, we can use the chi-squared test (which is the equivalen
 
 The p-value was calculated using the chisq.test function with ‘correct’ set to false. The data input into this function looks similar to the following table (without the season column):
 
+\ 
+
 
 ##### Results
+
+
+```{r, out.width="100%"}
+pQ1C
+```
+
+
+```{r, out.width="40%", fig.show='hold', fig.align='default'}
+dfQ1CR
+dfQ1CR1
+```
 
 
 Based on the p-values produced using a significance level of 0.01, we have evidence to reject the null hypotheses that the proportion of songs by genre is the same regardless of season for all the genres tested (pop, rap, hip hop, r&b, and rock). 
@@ -412,7 +463,7 @@ We can also see that the maximum increase from one season to another is over 35%
 <div class="methods">
 
 
-```{r}
+```{r, out.width="100%"}
 pQ2
 ggplotly(pQ2)
 ```
@@ -420,6 +471,10 @@ ggplotly(pQ2)
 
 
 To assess the happiness of a song, we analyze the valence: an audio feature from Spotify's API that describes the musical positiveness conveyed by a track. Tracks with high valence sound more positive (happy, cheerful, euphoric), while tracks with low valence sound more negative (sad, depressed, angry). As the chart above demonstrates, the averaged valence fluctuates with time and potential seasonality effects. For example, we identify peaks near the end of each year during November and December, around the time of the prominent US holiday season. Hence, we may attribute these peaks to seasonal consequences when Christmas music, which tends to be higher valence, populates Spotify's Top 200 charts for consecutive days. 
+
+
+\ 
+
 
 #### Data
  
@@ -437,6 +492,9 @@ df <- df %>%
 preview.Q2
 ```
 
+
+
+\ 
 
 
 #### Statistical Method
@@ -457,6 +515,9 @@ $H_1 : \mu_{\mathrm{before}} \neq \mu_{\mathrm{after}}$
 
 
 The test is conducted at a significance level of $\alpha = 0.05$.
+
+\ 
+
 
 
 #### Results: 
@@ -576,6 +637,8 @@ Our graphs display a slightly increasing trend of mean valences after the specif
 
 For this question we used the Spotify Daily Top Tracks data described in the dataset section. We then aggregated the data by song id, so each song has its own row. Each song has the same values for each attribute so we take the mean of these attributes. These attributes include explicit, acousticness, danceability, duration, energy, instrumentalness, key, liveness, loudness, mode, speechiness, tempo and valence. Then, we created a new variable for popularity and named it updated_rank. To calculate the updated_rank we do 201 - Rank (i.e. rank 1 has score 200, rank 200 has score 1) so a  higher updated_rank means the song is performing better in the ranks. We then sum this updated_rank for each song to get a popularity score. This way the longer the song is in the Spotify top 200 the higher the popularity score. 
 
+\ 
+
 
 
 #### Statistical Methods
@@ -583,13 +646,13 @@ For this question we used the Spotify Daily Top Tracks data described in the dat
 To answer this question we created three linear regression models and looked at the significance of each independent variable in each model. For each independent variable we look at the p-value for the t-test $H_0\colon \beta_x=0$ and $H_a\colon \beta_x \neq 0$ for each variable, $x$, in the linear regression model. First we started by looking at the correlation matrix. 
 
 
-```{r}
-dfQ3 <- df %>% select(c(acousticness, danceability, energy, duration, instrumentalness, key, liveness, loudness, mode, speechiness, tempo, time_signature, valence))
+```{r, out.width="100%"}
+df3 <- df %>% select(c(acousticness, danceability, energy, duration, instrumentalness, key, liveness, loudness, mode, speechiness, tempo, valence))
 
-dfQ3$updated_rank <- 201 - df$Rank
+df3$updated_rank <- 201 - df$Rank
 
-correlation_matrix <- round(cor(dfQ3),1)
-corrp.mat <- cor_pmat(dfQ3)
+correlation_matrix <- round(cor(df3),1)
+corrp.mat <- cor_pmat(df3)
 
 ggcorrplot(correlation_matrix, hc.order =TRUE, outline.color ="white", lab = TRUE, type = "lower", lab_size = 1.75, show.legend = FALSE, show.diag = FALSE) +
    scale_fill_gradient2(limit = c(-0.5,0.7), low = "#41B6E6", high =  "#78D64B", mid = "white", midpoint = 0)+ theme(axis.text.y = element_text(size = 10), axis.text.x = element_text(size = 10))
@@ -601,6 +664,8 @@ From the above correlation matrix graph we can see that streams and updated_rank
 For a few of the linear regression models we created, we used a method called backwards AIC that was not covered in detail in this class. This is an algorithm that starts with a full model and removes the least significant variables one after the other. The model stops when it reaches the optimal Akaike Information Criterion. This was all done in R, using the function step().
 
 We then continue on to make linear regression models. We made multiple models before choosing one model we thought was best. Below are a few of the models we created:
+
+<div class = "methods2">
 
 1. Model1: Simple additive model using all predictor variables in the correlation matrix above.
     a. Adjusted R-squared: 0.01226
@@ -616,11 +681,22 @@ We then continue on to make linear regression models. We made multiple models be
     b. Meets the linearity and constant variance assumptions
 
 
+</div>
+
+\ 
+
 After looking over all the models we decided to use Model4 for our analysis. It meets all the requirements for hypothesis testing for linear regression. As seen below the fitted vs. residuals plot seems to have a mean around 0 so linearity is met. The residuals are fairly equally spread out so we can also assume constant variance. The sample size is large enough where we can assume normality.
 
-```{r}
-
+```{r, echo=TRUE, eval=FALSE}
+model4 <- lm(log10(updated_rank) ~ acousticness + energy + duration + 
+              instrumentalness + key + liveness + loudness + mode + 
+              speechiness + tempo + valence + danceability, 
+            data = dfQ3)
+backwards = step(model4, direction = "backward")
 ```
+
+
+\ 
 
 
 #### Results
@@ -628,19 +704,30 @@ After looking over all the models we decided to use Model4 for our analysis. It 
 
 The estimates of the coefficients and their p-values are below: 
 
+```{r, out.width="100%"}
+dfQ3R1 <- data.frame("Estimate" = c("2.521", "1.003","5.081e-07", "-1.364e-01", "-5.448e-01", "-7.221e-02", "-6.841e-01", "1.117e-03", "1.877e-01"), "P Value" = c("2e-16", "2e-16", "0.045577", "0.108633", "0.000215", "0.008720", "9.82e-11", "0.011740", "0.005147"), row.names = c("(Intercept)", "danceability", "duration", "energy", "instrumentalness", "mode", "speechiness", "tempo", "valence"))
+
+kable(dfQ3R1) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  row_spec(0:9, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
+  column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
+  column_spec(2:3, color = "#555", extra_css = "font-weight: 300 !important;") %>%
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+```
+
 
 Overall, we can see that danceability has the highest coefficient estimate out of all the other independent variables, so increasing the danceability score by 1 would have more effect on the popularity score than changing any other variables by 1. Let’s take a closer look at the relationship between danceability and the popularity score.
 
-```{r}
-
+```{r, out.width="100%"}
+pQ3A
 ```
 
 
 From the above graph we can see that the more popular songs tend to have a higher danceability score. From our statistical analysis we can For each increase of 0.1 in the danceability score, the popularity score is expected to increase by 25.99% holding all other variables constant. We decided to look at an increase of 0.1 instead of 1 since the danceability score ranges from 0 to 1, so an increment of 0.1 made more sense to analyze in this context.
 
 
-```{r}
-
+```{r, out.width="100%"}
+pQ3B
 ```
 
 
@@ -681,7 +768,7 @@ We faced some major limitations in terms of our dataset which are as follows –
 
 
 
----------------------------------------------------
+
 
 
 
