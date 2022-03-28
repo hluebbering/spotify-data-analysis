@@ -397,10 +397,10 @@ This difference is also much more apparent in the bar chart as compared to the b
 
 Spring is considered to be March, April, and May. Summer is considered to be June, July, and August. Fall is considered to be September, October, and November. Winter is considered to be December, January, and February. The hypothesis tests were performed for each of the following genres: pop, rap, hip hop, r&b, and rock.
 
-- **Null hypothesis:** $H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{winter}$ - There is no difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between the different seasons. 
+- **Null hypothesis:** $H_0 \colon p_\mathrm{spring} = p_\mathrm{summer} = p_\mathrm{fall} = p_\mathrm{winter}$ $-$ There is no difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between the different seasons. 
 
 
-- **Alternative hypothesis:** $H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$ - There is a difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between at least two of the seasons. 
+- **Alternative hypothesis:** $H_1 \colon p_\mathrm{season \, 1} \neq p_\mathrm{season \, 2}$ $-$ There is a difference in the proportion of songs in the Spotify US Top 200 Daily Charts of the genre being tested between at least two of the seasons. 
 
 
 \ 
@@ -654,16 +654,16 @@ We then continue on to make linear regression models. We made multiple models be
 
 <div class = "methods2">
 
-1. Model1: Simple additive model using all predictor variables in the correlation matrix above.
+1. `Model1`: Simple additive model using all predictor variables in the correlation matrix above.
     a. Adjusted R-squared: 0.01226
     b. Does not meet linearity or constant variance assumption
-2. Model2: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms. 
+2. `Model2`: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms. 
     a. Adjusted R-squared: 0.01749
     b. Does not meet linearity or constant variance assumptions
-3. Model3: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms and taking log base 10 of the updated_rank.
+3. `Model3`: Model created using backwards AIC and all predictor variables in the correlation matrix above as well as all the interaction terms and taking log base 10 of the updated_rank.
     a. Adjusted R-squared:  0.02856
     b. Meets the linearity and constant variance assumptions
-4. Model4: Model created using backwards AIC and all predictor variables in the correlation matrix above and taking log base 10 of the updated_rank.
+4. `Model4`: Model created using backwards AIC and all predictor variables in the correlation matrix above and taking log base 10 of the updated_rank.
     a. Adjusted R-squared:  0.02008
     b. Meets the linearity and constant variance assumptions
 
