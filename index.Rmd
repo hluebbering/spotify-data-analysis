@@ -250,7 +250,15 @@ df.description  %>%
 
 
 ```{r pQ1, out.width="100%"}
-ggplotly(pQ1)
+m <- list(
+  l = 50,
+  r = 50,
+  b = 100,
+  t = 100,
+  pad = 4
+)
+
+ggplotly(pQ1, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 
@@ -311,7 +319,7 @@ $$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \
 \ 
 
 ```{r, out.width="100%"}
-ggplotly(pQ1A)
+ggplotly(pQ1A, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 ```{r, out.width="40%", fig.show='hold', fig.align='default'}
@@ -371,7 +379,7 @@ $$
 
 ```{r, out.width="100%"}
 #pQ1B
-ggplotly(pQ1B)
+ggplotly(pQ1B, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 
@@ -425,7 +433,7 @@ The p-value was calculated using the chisq.test function with ‘correct’ set 
 
 ```{r, out.width="100%"}
 # pQ1C
-ggplotly(pQ1C)
+ggplotly(pQ1C, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 
@@ -456,7 +464,7 @@ We can also see that the maximum increase from one season to another is over 35%
 
 
 ```{r, out.width="100%"}
-ggplotly(pQ2)
+ggplotly(pQ2, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 
@@ -706,7 +714,7 @@ kable(dfQ3R1) %>%
 Overall, we can see that danceability has the highest coefficient estimate out of all the other independent variables, so increasing the danceability score by 1 would have more effect on the popularity score than changing any other variables by 1. Let’s take a closer look at the relationship between danceability and the popularity score.
 
 ```{r, out.width="100%"}
-ggplotly(pQ3A)
+ggplotly(pQ3A, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
 

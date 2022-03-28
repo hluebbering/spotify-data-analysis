@@ -28,7 +28,7 @@ dfQ1$Date <- as.Date(dfQ1$Date)
 
 pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, color = genre)) +
   geom_line() +
-  ggtitle("Proportions of Popular Genres Over Time") + ylab("Proportion") +
+  ggtitle("Proportions of Popular Genres Over Time") +
   scale_color_manual(values = c("#4D49BE", "#C8E379","#EEDAEA","#2CC84D", "#E277CD")) +  
   theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
   theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
@@ -36,7 +36,7 @@ pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, colo
         plot.title = element_text(color = "white", size = 12, face = "bold"),
         axis.text = element_text(color = "white", size = 10),
         axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
+        axis.title.y = element_blank(),
         legend.background = element_rect(fill = "#3F3F3F"),
         legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
         legend.text = element_text(color = "white", size = 10),
@@ -155,7 +155,7 @@ preview.Q1 <- kable(
   row_spec(row = c(0:4), hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE; text-align: left;")  %>%
   column_spec(1:10, color = "#555", extra_css = "font-weight: 300;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 10.5px") %>%
-  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important;")
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;")
 
 
 dfQ1AR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
@@ -171,7 +171,8 @@ dfQ1AR1 <- kable(dfQ1AR1, col.names = c("Genre", "Weekday", "Weekend", "Differen
   column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
   column_spec(2, background = "#4D49BE",color = "white", extra_css = "font-weight: 300 !important;") %>%
-  column_spec(3, background = "#C8E379",color = "black", extra_css = "font-weight: 300 !important;")
+  column_spec(3, background = "#C8E379",color = "black", extra_css = "font-weight: 300 !important;") %>%
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;")
 
 
 dfQ1AR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
@@ -202,7 +203,8 @@ dfQ1BR1 <- kable(dfQ1BR1, col.names = c("Genre", "Not Holiday", "Holiday", "Diff
   column_spec(1:5, color = "#555", extra_css = "font-weight: 300 !important;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
   column_spec(2, background = "#EEDAEA",color = "white", extra_css = "font-weight: 300 !important;") %>%
-  column_spec(3, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;")
+  column_spec(3, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;") %>%
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;")
 
 
 dfQ1BR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
@@ -236,7 +238,8 @@ dfQ1CR1 <- kable(dfQ1CR1, col.names = c("Genre", "Spring", "Summer", "Fall", "Wi
   column_spec(2, background = "#C8E379",color = "white", extra_css = "font-weight: 300 !important;") %>%
   column_spec(3, background = "#EEDAEA",color = "black", extra_css = "font-weight: 300 !important;")%>%
   column_spec(4, background = "#4D49BE",color = "black", extra_css = "font-weight: 300 !important;")%>%
-  column_spec(5, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;")
+  column_spec(5, background = "#2CC84D",color = "black", extra_css = "font-weight: 300 !important;") %>%
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;")
 
 
 dfQ1CR <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
@@ -265,7 +268,7 @@ dfQ2 <- dfQ2 %>% mutate(cov = ifelse(Date < "2020-03-13", "before", "after"))
 
 pQ2 <- ggplot(data = dfQ2, mapping = aes(x = Date, y = valence.mean, color=cov)) +
   geom_line() +
-  ggtitle("Daily Mean Valence Over Time") + ylab("Proportion") +
+  ggtitle("Daily Mean Valence Over Time") +
   scale_color_manual(values = c("#C8E379", "#79D97C")) +  
   theme_ipsum(base_size = 11, base_family = "Roboto Condensed") +
   theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
@@ -273,7 +276,7 @@ pQ2 <- ggplot(data = dfQ2, mapping = aes(x = Date, y = valence.mean, color=cov))
         plot.title = element_text(color = "white", size = 12, face = "bold"),
         axis.text = element_text(color = "white", size = 10),
         axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
+        axis.title.y = element_blank(),
         legend.background = element_rect(fill = "#3F3F3F"),
         legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
         legend.text = element_text(color = "white", size = 10),
@@ -333,14 +336,14 @@ dfQ3A <- dfQ3 %>%
 
 
 pQ3A <- ggplot(data = dfQ3A, mapping=aes(x=danceability, y=popularity_score)) +
-  geom_point(colour = "#C8E379") + ylab("Popularity Score") +
+  geom_point(colour = "#C8E379") +
   theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
   theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
         axis.text.y = element_text(size = 8),
         plot.title = element_text(color = "white", size = 12, face = "bold"),
         axis.text = element_text(color = "white", size = 10),
         axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
+        axis.title.y = element_blank(),
         legend.background = element_rect(fill = "#3F3F3F"),
         legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
         legend.text = element_text(color = "white", size = 10),
