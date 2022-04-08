@@ -23,7 +23,7 @@ knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = en
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, out.width = "100%", fig.align = "center")
 library(Rmisc)
 library(plotrix)
 library(gridExtra)
@@ -35,9 +35,18 @@ library(htmltools)
 library(reactablefmtr)
 library(ggplot2)
 library(hrbrthemes)
+library(gcookbook)
+library(tidyverse)
 library(ggcorrplot)
 library(reactablefmtr)
 library(tidyr)
+
+library(showtext)
+extrafont::loadfonts(device="win")
+font_add_google("Roboto Condensed", "Roboto Condensed")
+
+showtext_auto() 
+
 
 df <- readRDS(file = "assets/data/spotify_data.rds")
 source("visualizations.R")
@@ -49,23 +58,10 @@ source("top50Playlist.R")
 
 
 
----------------------------------------------------
-
-
-## Abstract
-
-In this project, we propose to understand the factors which influence the popularity of Spotify songs. We make use of the US Daily Top 200 Spotify charts between 2018 to 2021 and Spotify audio features to perform this analysis. In our analysis, we look at three broad categories: first, the effect of time period on the popularity of genres, second, the happiness of songs played before and after Covid-19, and third, importance of audio features on the popularity of songs. 
-
-To examine the first category, we perform a series of hypothesis tests to analyze change in the popularity (number of streams) of genres in the Spotify US daily charts during different time periods (weekday vs weekend, holiday vs non-holiday, and seasonality). We perform two-sided large sample Z-tests to answer whether or not being a weekday/weekend (holiday/non-holiday) changes the popularity of genres. We conclude that results are statistically significant for both the questions but only practically significant for holiday/non-holiday time period. To study the effect of seasonality (spring, summer, fall, winter), we perform a chi-squared test and conclude that the results are statistically significant but not practically significant. 
-
-We then seek to understand the effect of Covid-19 on the popularity of happy songs in the top 200 daily charts. We perform a two-sided large sample Z-test to test this hypothesis and find that the result is statistically significant but due to limited data may not be practically significant. 
-
-Finally, we perform a linear regression to predict the popularity of songs using audio features. We conclude that linear regression is not a good technique to predict the popularity of Spotify songs because it gives us an adjusted R-squared of just 0.028. However, we find that audio features like danceability, instrumentalness, and speechiness are statistically significant. Based on the statistical and practical significance, we would suggest that a song with high danceability, low instrumentalness, low speechiness, with duration around 3.5 minutes has a higher likelihood of being popular among the users.
-
-
-
 
 ---------------------------------------------------
+
+
 
 
 ## Introduction
@@ -73,26 +69,9 @@ Finally, we perform a linear regression to predict the popularity of songs using
 We all listen to music wherever we are! Be it traveling, working, parties, or maybe just to relax.
 Each of us has our own music taste. But, there are songs which are popular among all of us! What is it about certain songs that causes them to have billions of streams? In this project, we try to understand what factors influence the popularity of songs. This project will be useful for the artists giving them insights into what type of songs remain popular among users, when to release a song, and which parameters make the song a hit. This analysis will also help Spotify, as they can get insights into what kinds of songs to recommend to its users and curate the playlists accordingly.
 
-
-### Questions/Hypotheses
-
-We examine the below questions in our analysis -
-
-<div class="spotify2">
-<ol class="roundedlist">
-
-1. Does time period change the popularity (proportion of streams) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
-    a. Does whether or not it is a weekday change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
-    b. Does whether or not it is during the holiday season change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
-    c. Does what meteorological season it is change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
-2. Did the popularity of happy songs (mean valence) in the top 200 Spotify US daily streams change during Covid?
-3. What parameters are the most important in predicting the popularity on Spotify in the US?
-
-</ol>
-</div>
+In this project, we propose to understand the factors which influence the popularity of Spotify songs. We make use of the US Daily Top 200 Spotify charts between 2018 to 2021 and Spotify audio features to perform this analysis. In our analysis, we look at three broad categories: first, the effect of time period on the popularity of genres, second, the happiness of songs played before and after Covid-19, and third, importance of audio features on the popularity of songs. 
 
 
----------------------------------------------------
 
 
 ### Dataset
@@ -224,21 +203,43 @@ We merged the two data sources into a single data frame with the combination of 
 ```{r, out.width="100%"}
 df.description  %>% 
   kable(escape = F) %>%
-  kable_styling(bootstrap_options = c("hover", "striped"), full_width = F, html_font = "Roboto", font_size = 12.5) %>%
+  kable_styling(bootstrap_options = c("hover", "striped"), full_width = T, html_font = "Roboto", font_size = 12.5) %>%
   row_spec(0:22, hline_after = F, extra_css = "border-bottom: 1px solid #FEFEFE;") %>%
   column_spec(1, color = "#111111", extra_css = "font-weight: 400;") %>%
   column_spec(2:3, color = "#555", extra_css = "font-weight: 300;") %>%
-  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px")
+  row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11.5px") %>%
+  scroll_box(height = "2.5in", extra_css = "border: none; padding: 5pt; margin: auto;")
 ```
 
 
 
+\ 
 
 
 ---------------------------------------------------
 
 
-## Analysis
+## Question Analysis
+
+
+We examine the below questions in our analysis -
+
+<div class="spotify2">
+<ol class="roundedlist">
+
+1. Does time period change the popularity (proportion of streams) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    a. Does whether or not it is a weekday change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    b. Does whether or not it is during the holiday season change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+    c. Does what meteorological season it is change the popularity (proportion of songs in the top 200 list) of pop, rap, hip hop, r&b, and rock genres in the Spotify US daily charts?
+2. Did the popularity of happy songs (mean valence) in the top 200 Spotify US daily streams change during Covid?
+3. What parameters are the most important in predicting the popularity on Spotify in the US?
+
+</ol>
+</div>
+
+
+
+\ 
 
 
 ### Question 1
@@ -249,7 +250,7 @@ df.description  %>%
 
 
 
-```{r pQ1, out.width="100%"}
+```{r pQ1}
 m <- list(
   l = 50,
   r = 50,
@@ -257,10 +258,9 @@ m <- list(
   t = 100,
   pad = 4
 )
-
 ggplotly(pQ1, orientation = 'h') %>% layout(autosize = T, margin = m)
-```
 
+```
 
 
 This question explores the proportion of songs of certain genres (pop, rap, hip hop, r&b, and rock) within a certain time-based constraint (weekday vs weekend, the holiday season or not, meteorological season). As the chart above demonstrates, time plays an important part in what genres people listen to. For example, pop has a very strong seasonality component. People have also been listening to more rock, but less r&b. We want to look at smaller periods of time and see what effect they may have on the proportion of genres in Spottiness's Top 200 charts.
@@ -311,15 +311,14 @@ The Z-value is calculated using a pooled sample proportion in the following equa
 $$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/n_A + 1/n_B \right)}}, && \hat{p} = \frac{n_A \, \hat{p}_A + n_B \, \hat{p}_B}{n_A + n_B}\end{align}$$
 
 
-\ 
 
 
 ##### Results
 
-\ 
 
-```{r, out.width="100%"}
+```{r}
 ggplotly(pQ1A, orientation = 'h') %>% layout(autosize = T, margin = m)
+
 ```
 
 ```{r, out.width="40%", fig.show='hold', fig.align='default'}
@@ -370,14 +369,14 @@ Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \right) \left(1/
 \end{align}
 $$
 
-\ 
+
 
 
 ##### Results
 
-\ 
 
-```{r, out.width="100%"}
+
+```{r}
 #pQ1B
 ggplotly(pQ1B, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
@@ -428,10 +427,9 @@ The p-value was calculated using the chisq.test function with ‘correct’ set 
 
 ##### Results
 
-\ 
 
 
-```{r, out.width="100%"}
+```{r}
 # pQ1C
 ggplotly(pQ1C, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
@@ -463,7 +461,7 @@ We can also see that the maximum increase from one season to another is over 35%
 <div class="methods">
 
 
-```{r, out.width="100%"}
+```{r}
 ggplotly(pQ2, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
@@ -584,7 +582,6 @@ $$
 We now write the 95% confidence interval for the difference between valence means as follows:
 
 $$
-\small
 \begin{align}
 &\left(
 \left |{\bar{X}_\mathrm{before} - \bar{X}_\mathrm{after}}\right|
@@ -641,7 +638,7 @@ For this question we used the Spotify Daily Top Tracks data described in the dat
 To answer this question we created three linear regression models and looked at the significance of each independent variable in each model. For each independent variable we look at the p-value for the t-test $H_0\colon \beta_x=0$ and $H_a\colon \beta_x \neq 0$ for each variable, $x$, in the linear regression model. First we started by looking at the correlation matrix. 
 
 
-```{r, out.width="100%"}
+```{r, out.width="65%"}
 df3 <- df %>% select(c(acousticness, danceability, energy, duration, instrumentalness, key, liveness, loudness, mode, speechiness, tempo, valence))
 
 df3$updated_rank <- 201 - df$Rank
@@ -659,6 +656,7 @@ From the above correlation matrix graph we can see that streams and updated_rank
 For a few of the linear regression models we created, we used a method called backwards AIC that was not covered in detail in this class. This is an algorithm that starts with a full model and removes the least significant variables one after the other. The model stops when it reaches the optimal Akaike Information Criterion. This was all done in R, using the function step().
 
 We then continue on to make linear regression models. We made multiple models before choosing one model we thought was best. Below are a few of the models we created:
+
 
 <div class = "methods2">
 
@@ -678,7 +676,8 @@ We then continue on to make linear regression models. We made multiple models be
 
 </div>
 
-\ 
+
+
 
 After looking over all the models we decided to use Model4 for our analysis. It meets all the requirements for hypothesis testing for linear regression. As seen below the fitted vs. residuals plot seems to have a mean around 0 so linearity is met. The residuals are fairly equally spread out so we can also assume constant variance. The sample size is large enough where we can assume normality.
 
@@ -713,7 +712,7 @@ kable(dfQ3R1) %>%
 
 Overall, we can see that danceability has the highest coefficient estimate out of all the other independent variables, so increasing the danceability score by 1 would have more effect on the popularity score than changing any other variables by 1. Let’s take a closer look at the relationship between danceability and the popularity score.
 
-```{r, out.width="100%"}
+```{r}
 ggplotly(pQ3A, orientation = 'h') %>% layout(autosize = T, margin = m)
 ```
 
@@ -721,7 +720,7 @@ ggplotly(pQ3A, orientation = 'h') %>% layout(autosize = T, margin = m)
 From the above graph we can see that the more popular songs tend to have a higher danceability score. From our statistical analysis we can For each increase of 0.1 in the danceability score, the popularity score is expected to increase by 25.99% holding all other variables constant. We decided to look at an increase of 0.1 instead of 1 since the danceability score ranges from 0 to 1, so an increment of 0.1 made more sense to analyze in this context.
 
 
-```{r, out.width="100%"}
+```{r}
 pQ3B
 ```
 
@@ -749,17 +748,24 @@ Based on statistical tests comparing average valences before and after Covid, we
 Almost all of the independent variables in our model are statistically significant. Although the variables are statistically significant, we also look at visualizations of the independent variables vs. popularity score. By analyzing a combination of statistical significance for the variables, value of the coefficient and patterns in the data visualizations we would conclude that to make a song popular on spotify, we would recommend a song with high danceability, low instrumentalness, low speechiness and around 3.5 minutes.
 
 
----------------------------------------------------
+\ 
 
 
 ### Limitations
 
 We faced some major limitations in terms of our dataset which are as follows –
 
-1. Missing genres for each song - The Spotify API provides us with genres for each artist but not for individual songs. As a result, we mapped all the genres belonging to artists with their songs and used these artists' genres for each song. This resulted in songs having multiple genres, and some may not be the actual genre of that song.
-2. Popularity of artist - We are biased towards popular artists and tend to like their songs more as compared to other artists. Hence, songs by artists with huge popularity become popular much faster. However, we could not make use of this intuition as we did not have the popularity of the artist at each timestamp. Instead, we had the most recent count of the number of followers for an artist. If we had an artist popularity score at each timestamp, we could have made use of that information and come up with questions like - “Does popularity of artists have an impact on the popularity of songs?”
-3. Different song titles across datasets - Initially, our plan was to combine Billboards Weekly Top 100 charts dataset and Spotify audio features to examine questions like “Which audio features are significant for a song to reach the Billboards top 100 charts?”. However, we couldn’t join the two data sources on the title of the songs in Billboards and Spotify data, because each of them had a slightly different title for the same song and different songs can have the same title. As a result, straightforward joining on titles became impossible.
-4. Limited dataset and seasonality - Our dataset only shows the top 200 songs within a narrow time limit, creating a sampling bias. Another limitation is the seasonal consequences of music listening habits. Though in future works, it's possible to control this effect by potentially using a seasonally adjusted valence measure. 
+**Missing genres for each song -** The Spotify API provides us with genres for each artist but not for individual songs. As a result, we mapped all the genres belonging to artists with their songs and used these artists' genres for each song. This resulted in songs having multiple genres, and some may not be the actual genre of that song.
+
+
+**Popularity of artist -** We are biased towards popular artists and tend to like their songs more as compared to other artists. Hence, songs by artists with huge popularity become popular much faster. However, we could not make use of this intuition as we did not have the popularity of the artist at each timestamp. Instead, we had the most recent count of the number of followers for an artist. If we had an artist popularity score at each timestamp, we could have made use of that information and come up with questions like - “Does popularity of artists have an impact on the popularity of songs?”
+
+
+
+**Different song titles across datasets -** Initially, our plan was to combine Billboards Weekly Top 100 charts dataset and Spotify audio features to examine questions like “Which audio features are significant for a song to reach the Billboards top 100 charts?”. However, we couldn’t join the two data sources on the title of the songs in Billboards and Spotify data, because each of them had a slightly different title for the same song and different songs can have the same title. As a result, straightforward joining on titles became impossible.
+
+
+**Limited dataset and seasonality -** Our dataset only shows the top 200 songs within a narrow time limit, creating a sampling bias. Another limitation is the seasonal consequences of music listening habits. Though in future works, it's possible to control this effect by potentially using a seasonally adjusted valence measure. 
 
 
 
