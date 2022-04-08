@@ -12,6 +12,7 @@ library(ggplot2)
 library(hrbrthemes)
 library(ggcorrplot)
 library(reactablefmtr)
+import_roboto_condensed()
 
 # Read in Data.rds
 df <- readRDS(file = "assets/data/spotify_data.rds")
@@ -30,21 +31,10 @@ pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, colo
   geom_line() +
   ggtitle("Proportions of Popular Genres Over Time") +
   scale_color_manual(values = c("#4D49BE", "#C8E379","#EEDAEA","#2CC84D", "#E277CD")) +  
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_blank(),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"))
-
+  theme_ipsum_rc(plot_title_size = 13) +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom")
 
 ################## QUESTION 1A ##################
 
@@ -57,20 +47,10 @@ dfQ1$day_type <- factor((weekdays(dfQ1$Date) %in% weekdays1),
 pQ1A <- ggplot(data = dfQ1, mapping=aes(x=genre, y = Freq, fill = day_type)) +
   geom_bar(position = "dodge", stat = "identity") +
   scale_fill_manual(values = c("#4D49BE", "#C8E379")) +
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"))
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom")
 
 
 ################## QUESTION 1B ##################
@@ -84,20 +64,10 @@ dfQ1 <- dfQ1 %>% mutate(holiday_season = ifelse(Date2 >= "11-25" & Date2 <= "12-
 pQ1B <- ggplot(data = dfQ1, mapping=aes(x=genre, y=Freq, fill = holiday_season)) +
   geom_bar(position = "dodge", stat = "identity") +
   scale_fill_manual(values = c("#EEDAEA","#2CC84D")) +
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"))
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom")
 
 ################## QUESTION 1C ##################
 
@@ -120,20 +90,10 @@ dfQ1 <- dfQ1 %>%
 pQ1C <- ggplot(data = dfQ1, mapping=aes(x=genre, y=Freq, fill = season)) +
   geom_bar(position = "dodge", stat = "identity") +
   scale_fill_manual(values = c("#4D49BE", "#C8E379", "#EEDAEA","#2CC84D")) +
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_text(color = "white", size = 10),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"))
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom")
 
 
 ################## QUESTION 1 TABLES ##################
@@ -270,20 +230,10 @@ pQ2 <- ggplot(data = dfQ2, mapping = aes(x = Date, y = valence.mean, color=cov))
   geom_line() +
   ggtitle("Daily Mean Valence Over Time") +
   scale_color_manual(values = c("#C8E379", "#79D97C")) +  
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") +
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_blank(),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D")) + labs(color = "COVID-19")
+  theme_ipsum_rc(plot_title_size = 13) +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom") + labs(color = "COVID-19")
 
 ################## QUESTION 2 TABLES ##################
 
@@ -337,20 +287,10 @@ dfQ3A <- dfQ3 %>%
 
 pQ3A <- ggplot(data = dfQ3A, mapping=aes(x=danceability, y=popularity_score)) +
   geom_point(colour = "#C8E379") +
-  theme_ipsum(base_size = 11, base_family = "Roboto Condensed") + 
-  theme(axis.text.x=element_text(angle=60, hjust=1, size = 8), 
-        axis.text.y = element_text(size = 8),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
-        axis.title.x = element_text(color = "white", size = 10),
-        axis.title.y = element_blank(),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"))
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(legend.position="bottom")
 
 
 dfQ3B <- dfQ3A %>% 
@@ -368,21 +308,13 @@ pQ3B <- ggplot(data = dfQ3B, mapping = aes(x = audio_feature_vals, y = popularit
   geom_point(colour = "#C8E379") +
   ylab("Popularity Score") +
   facet_wrap(~audio_feature, scales="free_x", switch = "x") + 
-  theme(axis.text.x=element_text(hjust=1, size = 6), 
-        axis.text.y = element_text(size = 6),
-        plot.title = element_text(color = "white", size = 12, face = "bold"),
-        axis.text = element_text(color = "white", size = 10),
+  theme_ipsum_rc() +
+  theme(axis.text.x=element_text(hjust=1), 
+        axis.title.y = element_blank()) +
+  theme(axis.text.x=element_text(hjust=1), 
         axis.title.x = element_blank(),
-        axis.title.y = element_text(color = "white", size = 10),
-        legend.background = element_rect(fill = "#3F3F3F"),
-        legend.key = element_rect(fill = "#3F3F3F", linetype = 0),
-        legend.text = element_text(color = "white", size = 10),
-        legend.title = element_text(color = "white", size = 10),
-        panel.background = element_rect(fill = "#3F3F3F"),
-        panel.grid = element_line(color = "#262626"),
-        plot.background = element_rect(fill = "#1D1D1D"),
+        legend.key = element_rect(linetype = 0),
         strip.background = element_rect(color="transparent", fill="transparent", size=1),
-        strip.text = element_text(size = 8, colour = "white"),
         strip.placement = "outside")
 
 
