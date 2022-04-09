@@ -27,7 +27,7 @@ dfQ1 <- df[df$genre == c('pop', 'rock', 'rap', 'hip hop', 'r&b'), ] %>%
 
 dfQ1$Date <- as.Date(dfQ1$Date)
 
-pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, color = genre)) +
+pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, color = genre, text = Freq)) +
   geom_line() +
   ggtitle("Proportions of Popular Genres Over Time") +
   scale_color_manual(values = c("#4D49BE", "#C8E379","#EEDAEA","#2CC84D", "#E277CD")) +  
@@ -49,8 +49,7 @@ pQ1A <- ggplot(data = dfQ1, mapping=aes(x=genre, y = Freq, fill = day_type)) +
   scale_fill_manual(values = c("#4D49BE", "#C8E379")) +
   theme_ipsum_rc() +
   theme(axis.text.x=element_text(hjust=1), 
-        axis.title.y = element_blank()) +
-  theme(legend.position="bottom")
+        axis.title.y = element_blank())
 
 
 ################## QUESTION 1B ##################
@@ -286,7 +285,7 @@ dfQ3A <- dfQ3 %>%
 
 
 pQ3A <- ggplot(data = dfQ3A, mapping=aes(x=danceability, y=popularity_score)) +
-  geom_point(colour = "#C8E379") +
+  geom_point(colour = "#20d761") +
   theme_ipsum_rc() +
   theme(axis.text.x=element_text(hjust=1), 
         axis.title.y = element_blank()) +
@@ -305,7 +304,7 @@ dfQ3B <- dfQ3A %>%
 
 
 pQ3B <- ggplot(data = dfQ3B, mapping = aes(x = audio_feature_vals, y = popularity_score)) +
-  geom_point(colour = "#C8E379") +
+  geom_point(colour = "#20d761") +
   ylab("Popularity Score") +
   facet_wrap(~audio_feature, scales="free_x", switch = "x") + 
   theme_ipsum_rc() +

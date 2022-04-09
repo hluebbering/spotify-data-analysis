@@ -8,25 +8,28 @@ Sys.setenv(SPOTIFY_CLIENT_ID = '4cf3afdca2d74dc48af9999b1b7c9c61')
 Sys.setenv(SPOTIFY_CLIENT_SECRET = 'f6ca08ad37bb41a0afab5ca1dc74b208')
 get_spotify_authorization_code()
 
-img1 <- get_playlist_cover_image(playlist_id = '4qfffs5EG6ikw9YkhCGGDl')
-img2 <- get_playlist_cover_image(playlist_id = '4lSykOrQfnAiCgtHKVudTT')
-img3 <- get_playlist_cover_image(playlist_id = '2JaV4TSXPB3RGuqvzwUuhb')
-img4 <- get_playlist_cover_image(playlist_id = '3NqHrY8dm9DBq29GowDFtw')
-img5 <- get_playlist_cover_image(playlist_id = '7IX71g0Qyn5E8z7zyGz3nm')
-img6 <- get_playlist_cover_image(playlist_id = '5EJyFuoHCQAgWCpF8ShZcM')
-img7 <- get_playlist_cover_image(playlist_id = '4G4tqvKkP23btdmk3VtL6K')
-img8 <- get_playlist_cover_image(playlist_id = '1cMIBIh038eqYtqKTh30LY')
-img9 <- get_playlist_cover_image(playlist_id = '3OrOgwT6m7wNytBUoxZGjg')
+
+x <- get_my_playlists(limit = 50)
+data.frame(x$id, x$name)
+
+img1 <- get_playlist_cover_image(playlist_id = '0fKnRTZeotYiQs9gbdEA5v')
+img2 <- get_playlist_cover_image(playlist_id = '2JaV4TSXPB3RGuqvzwUuhb')
+img3 <- get_playlist_cover_image(playlist_id = '4qfffs5EG6ikw9YkhCGGDl')
+img4 <- get_playlist_cover_image(playlist_id = '4lSykOrQfnAiCgtHKVudTT')
+img5 <- get_playlist_cover_image(playlist_id = '3NqHrY8dm9DBq29GowDFtw')
+img6 <- get_playlist_cover_image(playlist_id = '4G4tqvKkP23btdmk3VtL6K')
+img7 <- get_playlist_cover_image(playlist_id = '5EJyFuoHCQAgWCpF8ShZcM')
+img8 <- get_playlist_cover_image(playlist_id = '2WEOubxGOMFvq8EqfjC0lL')
+img9 <- get_playlist_cover_image(playlist_id = '0oMxi01bMztCl8EWzQMCWI')
 img10 <- get_playlist_cover_image(playlist_id = '2QVbD9Qhnytfui7b2Y47kX')
-img11 <- get_playlist_cover_image(playlist_id = '0oMxi01bMztCl8EWzQMCWI')
+img11 <- get_playlist_cover_image(playlist_id = '09GJ0uEndlrfFWZXX423Jm')
 img12 <- get_playlist_cover_image(playlist_id = '5uOpPcmlqGoLt1B5YQVQus')
-img13 <- get_playlist_cover_image(playlist_id = '09GJ0uEndlrfFWZXX423Jm')
-img14 <- get_playlist_cover_image(playlist_id = '2GEeRuMNWDDb9vxIPBA0zX')
+img13 <- get_playlist_cover_image(playlist_id = '2GEeRuMNWDDb9vxIPBA0zX')
+img14 <- get_playlist_cover_image(playlist_id = '7Dp1Vka3yMdWis5Yzcur5l')
 img15 <- get_playlist_cover_image(playlist_id = '188MSp2FBw0756l8umMQiW')
-img16 <- get_playlist_cover_image(playlist_id = '5X1wMRk5esxItcVeKQeCKJ')
 
 
-
+ 
 # get image url
 img1 <- img1$url[1]
 img2 <- img2$url[1]
@@ -43,7 +46,6 @@ img12 <- img12$url[1]
 img13 <- img13$url[1]
 img14 <- img14$url[1]
 img15 <- img15$url[1]
-img16 <- img16$url[1]
 
 # read image url
 cover1 <- image_read(img1)
@@ -61,11 +63,18 @@ cover12 <- image_read(img12)
 cover13 <- image_read(img13)
 cover14 <- image_read(img14)
 cover15 <- image_read(img15)      
-cover16 <- image_read(img16)  
 
 row1 <- c(cover1, cover2, cover3, cover4,
           cover5, cover6, cover7, cover8, 
           cover9, cover10, cover11, cover12, 
-          cover13, cover14, cover15, cover16)
+          cover13, cover14, cover15)
 image_append(image_scale(row1, "x580"))
-# image_write(R2, path = "R2.svg", format = "svg")
+
+
+row2 <- c(cover3, cover4, cover2,
+          cover5, cover6, cover7, cover1, cover8, #cover9,
+          cover9, cover10,
+          cover13) #, cover14, cover15)
+R3 <- image_append(image_scale(row2, "x580"))
+# image_write(R3, path = "R3.svg", format = "svg")
+

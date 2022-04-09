@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
 @import url("https://use.typekit.net/bbp6pmz.css");
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap');
 
 /** CUSTOM CSS **/
 
@@ -125,14 +126,14 @@ pre {
     border: none;
     border-radius: 6px;
     font-weight: 300;
-    color: white;
-    background: #232323;
+    color: #333 !important;
+    background: #f9f9f9 !important;
     padding: 18px;
 }
 pre code {
 	border: none !important;
 	box-shadow: none !important;
-	font-family: "Lucida Console", Monaco, monospace !important;
+	font-family: 'Inconsolata', monospace !important;
 }
 span.highlt {
 	background: #ffffff;
@@ -144,6 +145,28 @@ span.highlt {
 	color: #919191;
 	background: #eff0f2;
 }
+
+.hljs-number {
+    color: #099;
+    font-weight: 500;
+}
+
+span.hljs-keyname {
+    color: #4d49be;
+    color: hsl(312deg 80% 45%);
+    font-weight: 500;
+}
+
+span.hljs-models {
+    color: #339964;
+}
+
+.hljs-keyword {
+    color: hsl(312deg 80% 45%);
+    color: #c519c6;
+    font-weight: 600;
+}
+
 a {
 	color: #1055cc;
 }
@@ -505,7 +528,7 @@ a.navbar-brand::before {
     height: 30px;
     display: inline-block;
     position: relative;
-    background-image: url(static/spotify03.svg);
+    background-image: url(static/spotify3.svg);
     background-size: contain;
     margin: -5pt 2pt -7.25px 0;
 }
@@ -525,6 +548,18 @@ a.navbar-brand::before {
     color: #fff;
     background-color: #20d761;
     border-color: #20d761;
+}
+
+
+.methods2 {
+    background: hsl(0deg 0% 98%);
+    padding: 12px 0px 12px 0px;
+    border-radius: 5px;
+    box-shadow: inset 1px 1px 1px black;
+    color: #595959;
+    font-family: roboto condensed;
+    font-size: 10.5pt;
+    line-height: 16pt;
 }
 
 

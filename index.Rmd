@@ -1,6 +1,6 @@
 ---
 title: |
-  ![](assets/static/R2.svg){width="100%"} 
+  ![](assets/static/R3.svg){width="100%"} 
   
 subtitle: "Spotify Analysis" 
 date: |
@@ -21,6 +21,7 @@ output:
 # knit: pagedown::chrome_print
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, out.width = "100%", fig.align = "center")
@@ -56,6 +57,15 @@ source("top50Playlist.R")
 
 ```
 
+
+<script src="assets/r.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script>
+hljs.configure({languages: []});
+hljs.initHighlightingOnLoad();
+</script>
 
 
 
@@ -258,7 +268,9 @@ m <- list(
   t = 100,
   pad = 4
 )
-ggplotly(pQ1, orientation = 'h') %>% layout(autosize = T, margin = m)
+p <- ggplotly(pQ1, orientation = 'h', tooltip = "text") #%>% layout(autosize = T, margin = m)
+
+p
 
 ```
 
@@ -317,7 +329,7 @@ $$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \
 
 
 ```{r}
-ggplotly(pQ1A, orientation = 'h') %>% layout(autosize = T, margin = m)
+ggplotly(pQ1A, orientation = 'h') #%>% layout(autosize = T, margin = m)
 
 ```
 
@@ -378,7 +390,7 @@ $$
 
 ```{r}
 #pQ1B
-ggplotly(pQ1B, orientation = 'h') %>% layout(autosize = T, margin = m)
+ggplotly(pQ1B, orientation = 'h') #%>% layout(autosize = T, margin = m)
 ```
 
 
@@ -431,7 +443,7 @@ The p-value was calculated using the chisq.test function with ‘correct’ set 
 
 ```{r}
 # pQ1C
-ggplotly(pQ1C, orientation = 'h') %>% layout(autosize = T, margin = m)
+ggplotly(pQ1C, orientation = 'h') #%>% layout(autosize = T, margin = m)
 ```
 
 
@@ -462,7 +474,7 @@ We can also see that the maximum increase from one season to another is over 35%
 
 
 ```{r}
-ggplotly(pQ2, orientation = 'h') %>% layout(autosize = T, margin = m)
+ggplotly(pQ2, orientation = 'h') #%>% layout(autosize = T, margin = m)
 ```
 
 
@@ -638,20 +650,32 @@ For this question we used the Spotify Daily Top Tracks data described in the dat
 To answer this question we created three linear regression models and looked at the significance of each independent variable in each model. For each independent variable we look at the p-value for the t-test $H_0\colon \beta_x=0$ and $H_a\colon \beta_x \neq 0$ for each variable, $x$, in the linear regression model. First we started by looking at the correlation matrix. 
 
 
-```{r, out.width="65%"}
+```{r, out.width="100%"}
 df3 <- df %>% select(c(acousticness, danceability, energy, duration, instrumentalness, key, liveness, loudness, mode, speechiness, tempo, valence))
-
 df3$updated_rank <- 201 - df$Rank
 
 correlation_matrix <- round(cor(df3),1)
-corrp.mat <- cor_pmat(df3)
 
-ggcorrplot(correlation_matrix, hc.order =TRUE, outline.color ="white", lab = TRUE, type = "lower", lab_size = 1.75, show.legend = FALSE, show.diag = FALSE) +
-   scale_fill_gradient2(limit = c(-0.5,0.7), low = "#41B6E6", high =  "#78D64B", mid = "white", midpoint = 0)+ theme(axis.text.y = element_text(size = 10), axis.text.x = element_text(size = 10))
+pcor <- ggcorrplot(correlation_matrix, hc.order = TRUE, type = "lower", outline.col = "white", lab = TRUE, colors = c("#20d761", "#FFFCCC", "#FF47B9")) + theme_ipsum_rc(base_family = "Roboto Condensed")# , base_size = 45, axis_text_size = 45, axis_title_face = "bold")
+
+ggsave(plot = pcor, filename = "assets/static/ggcorrplot.svg", dpi = 700, width = 13, height = 10, units = "in")
+
+ggplotly(pcor)
 ```
 
 
-From the above correlation matrix graph we can see that streams and updated_rank are highly correlated. This makes sense since the rank on spotify is based on the number of streams. We will remove this variable when using linear regression as it is used in the formula to predict popularity and thus not an accurate predictor variable. Other than the total number of streams we can see that there is little to no correlation between the other variables and the updated_rank.
+```{r,  out.width="100%"}
+knitr::include_graphics(path = "assets/static/ggcorrplot.svg")
+```
+
+
+
+
+
+
+
+
+From the above correlation matrix graph we can see that there is little to no correlation between the other variables and the updated_rank.
 
 For a few of the linear regression models we created, we used a method called backwards AIC that was not covered in detail in this class. This is an algorithm that starts with a full model and removes the least significant variables one after the other. The model stops when it reaches the optimal Akaike Information Criterion. This was all done in R, using the function step().
 
@@ -682,10 +706,8 @@ We then continue on to make linear regression models. We made multiple models be
 After looking over all the models we decided to use Model4 for our analysis. It meets all the requirements for hypothesis testing for linear regression. As seen below the fitted vs. residuals plot seems to have a mean around 0 so linearity is met. The residuals are fairly equally spread out so we can also assume constant variance. The sample size is large enough where we can assume normality.
 
 ```{r, echo=TRUE, eval=FALSE}
-model4 <- lm(log10(updated_rank) ~ acousticness + energy + duration + 
-              instrumentalness + key + liveness + loudness + mode + 
-              speechiness + tempo + valence + danceability, 
-            data = dfQ3)
+model4 <- lm(log10(updated_rank) ~ acousticness + energy + duration + instrumentalness + key + liveness + loudness + mode + speechiness + tempo + valence + danceability, 
+             data = dfQ3)
 backwards = step(model4, direction = "backward")
 ```
 
@@ -713,7 +735,7 @@ kable(dfQ3R1) %>%
 Overall, we can see that danceability has the highest coefficient estimate out of all the other independent variables, so increasing the danceability score by 1 would have more effect on the popularity score than changing any other variables by 1. Let’s take a closer look at the relationship between danceability and the popularity score.
 
 ```{r}
-ggplotly(pQ3A, orientation = 'h') %>% layout(autosize = T, margin = m)
+ggplotly(pQ3A, orientation = 'h') #%>% layout(autosize = T, margin = m)
 ```
 
 
@@ -721,8 +743,15 @@ From the above graph we can see that the more popular songs tend to have a highe
 
 
 ```{r}
-pQ3B
+#pQ3B
+ggsave(plot = pQ3B, filename = "assets/static/pQ3B.svg", dpi = "print", width = 8, height = 5)
 ```
+
+
+```{r,  out.width="100%"}
+knitr::include_graphics(path = "assets/static/pQ3B.svg")
+```
+
 
 
 Along with looking at the hypothesis tests in the linear regression model it is also important to analyze the data visualizations.  For example, duration is statistically significant and the coefficient is positive, but as we can see in the graph popularity increases as duration increases but only to a certain point. At around 3.5 minutes the popularity actually begins to decline. Combining the results from our significance test and the data visualizations above, if a music producer were to ask us what features should they focus on to create a popular song, we would recommend creating a song with high danceability, low instrumentality and low speechiness. They all have the highest coefficients in the linear regression model and the data visualizations support this conclusion.
