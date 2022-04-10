@@ -122,7 +122,7 @@ code {
 	box-shadow: 1px 1px 1px 0px #ddd inset, -1px -1px 1px 0px #e6e6e6 inset;
 }
 pre {
-    box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+    /*box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);*/
     border: none;
     border-radius: 6px;
     font-weight: 300;
@@ -134,6 +134,8 @@ pre code {
 	border: none !important;
 	box-shadow: none !important;
 	font-family: 'Inconsolata', monospace !important;
+	font-weight: 400 !important;
+	color: #333 !important;
 }
 span.highlt {
 	background: #ffffff;
@@ -146,24 +148,36 @@ span.highlt {
 	background: #eff0f2;
 }
 
+.hljs-comment {
+    color: hsl(0deg 0% 70%);
+    font-style: normal;
+}
+
 .hljs-number {
-    color: #099;
+    color: hsl(175deg 100% 35%);
     font-weight: 500;
 }
 
 span.hljs-keyname {
     color: #4d49be;
-    color: hsl(312deg 80% 45%);
     font-weight: 500;
 }
 
 span.hljs-models {
-    color: #339964;
+    font-weight: 400;
+    color: #3e8ef1;
+}
+
+.hljs-literal {
+    color: #ff4935;
+    font-weight: 400;
+}
+.hljs-string {
+    color: #bb01e0;
 }
 
 .hljs-keyword {
-    color: hsl(312deg 80% 45%);
-    color: #c519c6;
+    color: hsl(237deg 100% 30%);
     font-weight: 600;
 }
 
@@ -235,13 +249,15 @@ blockquote .track__plays {
     counter-increment: my-awesome-counter;
     margin: 0.25rem;
     font-family: roboto, sans-serif !important;
-    font-size: 11.5pt;
     font-weight: 300;
     margin-bottom: 12pt;
-    color: hsl(0deg 0% 70%);
+    color: #aaaaaa !important;
+    font-size: 11pt !important;
+    text-shadow: 0.25px 0.25px 0.5px rgb(0 0 0 / 65%);
+    line-height: 16pt !important;
 }
 
-.roundedlist li::before {
+/*.roundedlist li::before {
     font-family: roboto, sans-serif !important;
     content: counter(my-awesome-counter);
     color: #5eff7b !important;
@@ -260,16 +276,39 @@ blockquote .track__plays {
     box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%);
     float: left;
     align-items: center;
+}*/
+
+.roundedlist li::before {
+    font-family: roboto, sans-serif !important;
+    content: counter(my-awesome-counter);
+    color: #5eff7b !important;
+    width: 18pt;
+    height: 18pt;
+    text-align: center;
+    font-weight: 800;
+    margin-left: -30px !important;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+    text-shadow: 1px 1px 1px #000;
+    background-color: #383838;
+    border-radius: 100%;
+    box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%);
+    float: left;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
+
 
 ol.roundedlist {
 	padding-left: 14pt;
 }
 b, strong {
 	font-weight: 700;
-	font-size: 11pt;
-	font-family: proxima-nova, sans-serif;
 	color: #1cca59;
+	font-family: roboto;
+  font-size: 14px;
+  text-shadow: 0.15px 0.15px 0.22px hsl(0deg 0% 0% / 40%);
+    
 }
 .roundedlist ul li::before {
 	content: none;
@@ -370,13 +409,12 @@ span.mlist {
 	margin-right: 8px;
 }
 
+
 .spotify2 {
-    background: #232323;
+    background: hsl(0deg 0% 16%);
     padding: 16px;
-    border-radius: 4pt;
+    border-radius: 15px;
     box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
-    color: white !important;
-    font-family: 'roboto';
 }
 
 h3.subtitle::before {
@@ -553,15 +591,99 @@ a.navbar-brand::before {
 
 .methods2 {
     background: hsl(0deg 0% 98%);
-    padding: 12px 0px 12px 0px;
+    padding: 18px;
     border-radius: 5px;
-    box-shadow: inset 1px 1px 1px black;
     color: #595959;
-    font-family: roboto condensed;
-    font-size: 10.5pt;
+    font-family: 'roboto';
+    font-size: 12px;
+    margin-bottom: 18px;
     line-height: 16pt;
+    box-shadow: 1px 1px 5px 0px #ddd inset, -1.5px -1.5px 2px -1px #e6e6e6 inset;
+
+}
+
+
+.html-widget {
+    margin-bottom: 0 !important;
+}
+
+.methods2 li::before {
+    content: counter(cake);
+    background: #20d761;
+    display: inline-flex;
+    width: 12pt;
+    height: 12pt;
+    border-radius: 10px;
+    margin-right: 4pt;
+    color: white;
+    font-size: 8pt;
+    justify-content: center;
+    align-items: center;
+    margin-left: -18pt;
+
+}
+
+.methods2 ol {
+    counter-increment: cake;
+    margin-left: -8pt;
+    
+
+}
+
+.methods2 li::marker {
+    content: none !important;
+}
+
+.methods2 ol ol {
+    margin-left: -10pt;
+}
+
+.methods2 ol ol li {
+    font-weight: 300;
+    font-size: 10pt;
+    font-family: roboto condensed;
+}
+
+
+.methods2 ol ol li::before {
+    width: 9pt;
+    height: 9pt;
+    font-size: 8pt;
+    margin-left: -4pt;
+    box-shadow: 0px 0.25px 0.25px 0.2px #605c5b70, 0.5px 0.5px 0.5px #fffbfc inset, 0 0.5px 1.5px rgb(0 0 0 / 12%), 0 0.5px 1px rgb(0 0 0 / 24%);
+    background-image: conic-gradient(#fff, #000, #fff, #000, #fff, #000, #fff, #000), conic-gradient(#fff, #000, #fff, #000, #fff, #000, #fff, #000), radial-gradient(circle at 40% 5%, #2ad0ca, #e1f664, #feb0fe, #abb3fc, #5df7a4, #58c4f6) !important;
+    background-blend-mode: screen, difference, normal !important;
+    filter: drop-shadow(0.25px 0.25px 0.25px rgb(0 0 0 / 50%));
+    color: transparent;
+    text-shadow: none !important;
+
 }
 
 
 
+.methods2 li::before {
+    content: counter(cake);
+    display: inline-flex;
+    width: 12pt;
+    height: 12pt;
+    margin-right: 4pt;
+    font-size: 8pt;
+    margin-left: -18pt;
+    color: #5eff7b;
+    justify-content: center;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3));
+    text-shadow: 1px 1px 1px #000;
+    background-color: #383838;
+    border-radius: 100%;
+    box-shadow: inset 0 -0.0625em 0.125em rgb(0 0 0 / 75%), inset 0 0.125em 0.125em -0.0625em rgb(255 255 255 / 40%), 0 0 0.03125em 0.0625em rgb(0 0 0 / 60%), 0 0.0625em 0.25em 0.03125em rgb(0 0 0 / 50%);
+    align-items: center;
+}
 
+
+.methods2 code {
+    font-weight: 400;
+    background: hsl(0deg 0% 94%);
+    font-size: 12px;
+    border: 0.25px solid #e0e0e0;
+    padding: 2.5px;
+}
