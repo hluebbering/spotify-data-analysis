@@ -34,7 +34,8 @@ pQ1 <- ggplot(data = dfQ1, mapping = aes(x = Date, y = Freq, group = genre, colo
                                 "#C724B1", "#2CC84D", 
                                 "#EFB661")) + #32fbad
   theme_ipsum_rc(plot_title_size = 13) +
-  theme(axis.text.x=element_text(hjust=1), axis.title.y = element_blank())
+  theme(axis.text.x=element_text(hjust=1), axis.title.y = element_blank(),
+        axis.title.x = element_blank(), plot.title = element_text(vjust = -50))
 
 ################## QUESTION 1A ##################
 
@@ -111,7 +112,7 @@ preview.Q1 <- kable(
   column_spec(2:10, color = "#555", extra_css = "font-weight: 300 !important; font-family: Roboto Condensed;") %>%
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11px;") %>%
   kable_paper() %>%
-  scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;")
+  scroll_box(width = "96%", extra_css = "border: none !important; padding: 2pt !important; overflow-x: overlay !important;")
 
 
 dfQ1AR1 <- data.frame("Genre" = c("Pop", "Rap", "Hip Hop", "R&B", "Rock"),
@@ -131,7 +132,7 @@ dfQ1AR1 <- kable(dfQ1AR1, col.names = c("Genre", "Weekday", "Weekend", "Max $\\D
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11px;") %>%
   column_spec(3, background = "#215732",color = "white", extra_css = "font-weight: 300 !important;") %>%
   column_spec(2, background = "#C724B1",color = "white", extra_css = "font-weight: 300 !important;")%>%
-  #scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;") %>% 
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 2pt !important; overflow-x: overlay !important;") %>%
   kable_paper()
 
 
@@ -154,7 +155,7 @@ dfQ1BR1 <- kable(dfQ1BR1, col.names = c("Genre", "Not Holiday", "Holiday", "Max 
   row_spec(0, color = "#111111", extra_css = "text-transform: uppercase; letter-spacing: 1.25px; font-weight: 400; font-size: 11px;") %>%
   column_spec(3, background = "#32fbad", color = "black", extra_css = "font-weight: 300 !important;") %>%
   column_spec(2, background = "#2CC84D", color = "black", extra_css = "font-weight: 300 !important;")%>%
-  #scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;") %>% 
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 2pt !important; overflow-x: overlay !important;") %>%
   kable_paper()
   
 
@@ -183,7 +184,7 @@ dfQ1CR1 <- kable(dfQ1CR1, col.names = c("Genre", "Spring", "Summer", "Fall", "Wi
   column_spec(3, background = "#C724B1",color = "white", extra_css = "font-weight: 300 !important;")%>%
   column_spec(4, background = "#2CC84D",color = "white", extra_css = "font-weight: 300 !important;")%>%
   column_spec(5, background = "#e69e19",color = "white", extra_css = "font-weight: 300 !important;") %>%
-  #scroll_box(width = "100%", extra_css = "border: none !important; padding: 0 important; overflow-x: overlay !important;") %>% 
+  scroll_box(width = "100%", extra_css = "border: none !important; padding: 2pt !important; overflow-x: overlay !important;") %>% 
   kable_paper()
 
 

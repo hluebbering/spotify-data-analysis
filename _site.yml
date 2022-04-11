@@ -1,8 +1,3 @@
 name: "spotify-analysis"
 navbar:
   title: "Spotify Analysis"
-  # left:
-  #   - text: "Home"
-  #     href: index.html
-  #   - text: "About"
-  #     href: about.html

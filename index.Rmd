@@ -20,6 +20,8 @@ output:
     self_contained: yes
 # knit: pagedown::chrome_print
 knit: (function(inputFile, encoding) {rmarkdown::render(inputFile, encoding = encoding, output_dir = "docs") })
+bibliography: assets/references.bib  
+nocite: '@*'
 ---
 
 
@@ -262,9 +264,25 @@ We examine the below questions in our analysis -
 
 
 ```{r pQ1}
-p <- ggplotly(pQ1, orientation = 'h', tooltip = "text") #%>% layout(autosize = T, margin = m)
-
-p
+ggplotly(pQ1) %>%
+  layout(
+    legend = list(
+      x = 0,
+      y = -0.1,
+      orientation = "h"
+    ),
+    margin = list(t = 10),
+    xaxis = list(
+      type = "date",
+      range = c(18650, 18900),
+      gridcolor = "rgb(255, 255, 255)",
+      linecolor = "rgb(34,34,34)",
+      showgrid = TRUE,
+      showline = FALSE,
+      zeroline = FALSE
+    ),
+    title = list(y = 0.95, yanchor =  'top')
+  )
 ```
 
 
@@ -326,7 +344,9 @@ $$\begin{align}Z = \frac{\hat{p}_A - \hat{p}_B}{\sqrt{\hat{p} \left(1- \hat{p} \
 
 
 ```{r, fig.show='hold', out.width="100%"}
-ggplotly(pQ1A, orientation = 'h') #%>% layout(autosize = T, margin = m)
+ggplotly(pQ1A, orientation = 'h') %>%
+  layout(legend = list(xanchor = "center"))
+
 
 dfQ1AR1
 ```
@@ -386,7 +406,8 @@ $$
 
 
 ```{r, fig.show='hold', out.width="100%"}
-ggplotly(pQ1B, orientation = 'h') #%>% layout(autosize = T, margin = m)
+ggplotly(pQ1B, orientation = 'h') %>%
+  layout(legend = list(xanchor = "center"))
 
 dfQ1BR1
 ```
@@ -440,7 +461,8 @@ The p-value was calculated using the chisq.test function with ‘correct’ set 
 
 
 ```{r, fig.show='hold', out.width="100%"}
-ggplotly(pQ1C, orientation = 'h') #%>% layout(autosize = T, margin = m)
+ggplotly(pQ1C, orientation = 'h') %>%
+  layout(legend = list(xanchor = "center"))
 
 dfQ1CR1
 ```
@@ -468,7 +490,11 @@ We can also see that the maximum increase from one season to another is over 35%
 
 
 ```{r}
-ggplotly(pQ2, orientation = 'h') #%>% layout(autosize = T, margin = m)
+ggplotly(pQ2, orientation = 'h') %>%
+  layout(legend = list(
+    x = 0.03153023064673607, 
+    y = 0.9486015633255951))
+
 ```
 
 
@@ -660,6 +686,7 @@ pcor <- ggcorrplot(correlation_matrix, hc.order = TRUE, type = "lower", outline.
   theme_ipsum_rc(base_family = "Roboto Condensed") + theme(panel.grid = element_blank(), panel.grid.major = element_blank(), plot.margin =  margin(6,6,6,6), axis.text.x = element_text(size = 8, angle = 45), axis.text.y = element_text(size = 8), axis.title.x = element_blank(), axis.title.y = element_blank())
 
 ggplotly(pcor) %>% layout(autosize = T)
+
 ```
 
 
@@ -754,7 +781,8 @@ Overall, we can see that danceability has the highest coefficient estimate out o
 
 
 ```{r}
-ggplotly(pQ3A, orientation = 'h') #%>% layout(autosize = T, margin = m)
+ggplotly(pQ3A, orientation = 'h') %>%
+  layout(legend = list(xanchor = "center"))
 ```
 
 
@@ -823,7 +851,7 @@ We faced some major limitations in terms of our dataset which are as follows –
 
 
   
-
+### References
 
 
 
