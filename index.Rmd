@@ -47,7 +47,6 @@ library(tidyr)
 library(showtext)
 extrafont::loadfonts(device="win")
 font_add_google("Roboto Condensed", "Roboto Condensed")
-
 showtext_auto() 
 
 

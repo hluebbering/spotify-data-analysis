@@ -705,7 +705,7 @@ text.legendtext, text.legendtitletext {
 
 
 
-pre::before {
+/*pre::before {
     content: attr(class);
     padding: 0.75pt 1.1em;
     background: hsl(141deg 60% 48% / 75%);
@@ -719,4 +719,4 @@ pre::before {
     display: flex;
     justify-content: center;
     margin-bottom: -10px;
-}
+}*/
