@@ -15,9 +15,9 @@ library(kableExtra)
 
 # user information
 Sys.setenv(SPOTIFY_CLIENT_ID = '4cf3afdca2d74dc48af9999b1b7c9c61')
-Sys.setenv(SPOTIFY_CLIENT_SECRET = 'f6ca08ad37bb41a0afab5ca1dc74b208')
-get_spotify_authorization_code()
-
+Sys.setenv(SPOTIFY_CLIENT_SECRET = 'a083ff9e65144e6e85fd98ad7f46cda6')
+access_token <- get_spotify_access_token()
+#get_spotify_authorization_code()
 
 #get_playlist_audio_features()
 plTracks <- get_playlist_tracks('37i9dQZEVXbLRQDuF5jeBp')
