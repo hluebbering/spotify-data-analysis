@@ -103,11 +103,13 @@ h5 {
 
 body {
 	font-family: 'Source Serif Pro', serif;
+	font-family: source-serif-pro, serif;
 	margin: 30.6px;
 	font-size: 12pt;
 }
 p {
 	font-family: 'Source Serif Pro', serif;
+	font-family: source-serif-pro, serif;
 	font-size: 12pt;
 	line-height: 1.5em;
 	color: #292929;
